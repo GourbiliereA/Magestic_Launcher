@@ -41,7 +41,7 @@ public class PlaySoundss {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//para reproducir sonido .wav
+		// Play .wav sound
 
 	}
 

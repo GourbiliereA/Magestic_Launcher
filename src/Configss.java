@@ -1,41 +1,29 @@
 
 
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javafx.scene.control.Spinner;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import java.awt.Window.Type;
+import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.lang.reflect.InvocationTargetException;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 import at.jta.Key;
 import at.jta.RegistryErrorException;
 import at.jta.Regor;
-
-import javax.swing.SwingConstants;
-
-import java.awt.SystemColor;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 public class Configss extends JFrame {
 
@@ -76,12 +64,12 @@ public class Configss extends JFrame {
 
 	public Configss() {
 		
-		setTitle("MuMytholohy Configuracion");
+		setTitle("Configuration");
 		setUndecorated(true);
 		setType(Type.UTILITY);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 271, 314);
+		setBounds(200, 100, 271, 314);
 		contentPane = new JPanel();
 		contentPane.setLayout(null);
 
@@ -94,7 +82,7 @@ public class Configss extends JFrame {
 				    
 				    
 				    
-				    JButton btnNewButton = new JButton("Guardar");
+				    JButton btnNewButton = new JButton("Sauvegarder");
 				    btnNewButton.setBorder(null);
 				    btnNewButton.setBounds(76, 213, 118, 28);
 				    btnNewButton.addActionListener(new ActionListener() {
@@ -170,7 +158,7 @@ public class Configss extends JFrame {
 				    		reg.saveDword(k, "VolumeLevel", spinner.getValue().toString());
 				    		
 				    		
-				    		JOptionPane.showMessageDialog(null, "Los cambios han sido guardados.","Correcto",JOptionPane.INFORMATION_MESSAGE);
+				    		JOptionPane.showMessageDialog(null, "Les changements ont été enregistrés.","Correct",JOptionPane.INFORMATION_MESSAGE);
 				    		
 				    		dispose();
 				    		
@@ -200,7 +188,7 @@ public class Configss extends JFrame {
 				    lblNewLabel_2.setBounds(219, 14, 26, 23);
 				    contentPane.add(lblNewLabel_2);
 				    
-				    rdbtnNo = new JRadioButton("Efectos(On/Off)");
+				    rdbtnNo = new JRadioButton("Effets (On/Off) ");
 				    rdbtnNo.setForeground(Color.WHITE);
 				    rdbtnNo.setOpaque(false);
 				    rdbtnNo.setBounds(125, 107, 120, 23);
@@ -222,7 +210,7 @@ public class Configss extends JFrame {
 				    contentPane.add(btnNewButton);
 		
 					
-				    rdbtnPantallaCompleta = new JRadioButton("Pantalla Completa");
+				    rdbtnPantallaCompleta = new JRadioButton("Plein Écran");
 				    buttonGroup_3.add(rdbtnPantallaCompleta);
 				    rdbtnPantallaCompleta.setForeground(Color.WHITE);
 				    rdbtnPantallaCompleta.setOpaque(false);
@@ -231,20 +219,20 @@ public class Configss extends JFrame {
 		
 		
 		
-		rdbtnMinimizado = new JRadioButton("Modo ventana");
+		rdbtnMinimizado = new JRadioButton("Mode Fenêtre");
 		buttonGroup_3.add(rdbtnMinimizado);
 		rdbtnMinimizado.setForeground(Color.WHITE);
 		rdbtnMinimizado.setOpaque(false);
 		rdbtnMinimizado.setBounds(19, 158, 109, 23);
 		contentPane.add(rdbtnMinimizado);
 		
-		JLabel lblIniciar = new JLabel("Iniciar:");
+		JLabel lblIniciar = new JLabel("Mode :");
 		lblIniciar.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblIniciar.setForeground(Color.WHITE);
 		lblIniciar.setBounds(21, 137, 46, 14);
 		contentPane.add(lblIniciar);
 		
-		rdbtnSi = new JRadioButton("Musica(On/Off)");
+		rdbtnSi = new JRadioButton("Musique (On/Off) ");
 		rdbtnSi.setForeground(Color.WHITE);
 		rdbtnSi.setOpaque(false);
 		rdbtnSi.setBounds(20, 107,115, 23);
@@ -252,13 +240,13 @@ public class Configss extends JFrame {
 		
 	
 		
-		JLabel lblSonido = new JLabel("Sonido:");
+		JLabel lblSonido = new JLabel("Son:");
 		lblSonido.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblSonido.setForeground(Color.WHITE);
 		lblSonido.setBounds(20, 86, 46, 14);
 		contentPane.add(lblSonido);
 		
-		JLabel lblResolucion = new JLabel("Resoluci\u00F3n:");
+		JLabel lblResolucion = new JLabel("Résolution:");
 		lblResolucion.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblResolucion.setForeground(Color.WHITE);
 		lblResolucion.setBounds(20, 14, 95, 14);
@@ -272,7 +260,7 @@ public class Configss extends JFrame {
 		rdbtnNewRadioButton.setBounds(20, 35, 109, 23);
 		contentPane.add(rdbtnNewRadioButton);
 		
-		JLabel lblVolumen = new JLabel("Volumen:");
+		JLabel lblVolumen = new JLabel("Volume:");
 		lblVolumen.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblVolumen.setForeground(Color.WHITE);
 		lblVolumen.setBounds(128, 137, 79, 14);

@@ -99,7 +99,7 @@ public class MMLauncherss extends JFrame  {
 		
 	
 	
-		lblNewLabel = new JLabel("Buscando Actualizaciones.");
+		lblNewLabel = new JLabel("Recherche de mises à jour.");
 		SwingWorker work = new SwingWorker() {
 
 			@Override
@@ -114,10 +114,10 @@ public class MMLauncherss extends JFrame  {
 					runState = false;
 					lblPlay.setEnabled(false);
 					
-					lblNewLabel.setText("Actualizacion Disponible!");
+					lblNewLabel.setText("Mise à jour disponible!");
 		
 					Thread.sleep(1200);
-					lblNewLabel.setText("Contactando Servidor de Descargas...");
+					lblNewLabel.setText("Contact avec le serveur de téléchargement...");
 					downloadAll();
 					
 					
@@ -154,10 +154,10 @@ public class MMLauncherss extends JFrame  {
 					runState = false;
 					lblPlay.setEnabled(false);
 					
-					lblNewLabel.setText("Actualizacion Disponible!");
+					lblNewLabel.setText("Mise à jour disponible!");
 		
 					Thread.sleep(1200);
-					lblNewLabel.setText("Contactando Servidor de Descargas...");
+					lblNewLabel.setText("Contact avec le serveur de téléchargement...");
 					downloadLatest();
 					
 					
@@ -192,14 +192,14 @@ public class MMLauncherss extends JFrame  {
 				
 					for(int i = 0; i<3;i++)
 					{
-					lblNewLabel.setText("Buscando Actualizaciones. .");
+					lblNewLabel.setText("Recherche de mise à jour. .");
 					Thread.sleep(500);
-					lblNewLabel.setText("Buscando Actualizaciones. . .");
+					lblNewLabel.setText("Recherche de mise à jour. . .");
 					Thread.sleep(500);
-					lblNewLabel.setText("Buscando Actualizaciones.");
+					lblNewLabel.setText("Recherche de mise à jour.");
 					Thread.sleep(500);
 					}
-					lblNewLabel.setText("No hay ninguna actualización");
+					lblNewLabel.setText("Aucune mise à jour nécessaire");
 					
 				}
 
@@ -234,15 +234,16 @@ public class MMLauncherss extends JFrame  {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				//si no esta actualizando entonces
+				// If there is an update
 				if(runState == true)
 				{
 				
 				
-			        /**Para poder correr el proceso es necesario un archivo.manifest que trae 
-			        la configuracion para ejecutar, este se compila creando un .exe con Launch4j,
-			        Config: Version JRE Minima 1.0.0 , header=seleccion mi tipo de aplicacion, agregar manifest.
-			        EL NOMBRE DEL MANIFEST DEBE SER IGUAL AL DEL JAR EXPORTADO
+			        /**
+			         * To launch the process, the manifest is needed. It's compiled with Launch4j which create a .exe.
+			         * Config : JRE Minimum Version 1.0.0
+			         * 			Header : Application type selection, add manifest
+			         * THE NAME OF THE MANIFEST NEED TO BE THE SAME THAN THE EXPORTED JAR.
 			        **/
 			        
 			        try {
@@ -268,33 +269,33 @@ public class MMLauncherss extends JFrame  {
 				else
 				{
 					
-					JOptionPane.showMessageDialog(contentPane, "Porfavor espere a que termine la actualización", "Actualizando", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(contentPane, "S'il vous plait, veuillez attendre la fin de la mise à jour", "Actualisation", JOptionPane.INFORMATION_MESSAGE);
 					
 				}
 				
 			}
 		});
 		
-		final JLabel lblMuMythology = new JLabel("Mu Mythology 2015\u00A9 ");
-		lblMuMythology.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblMuMythology.addMouseListener(new MouseAdapter() {
+		final JLabel lblMuMagestic = new JLabel("Mu Magestic 2016\u00A9 ");
+		lblMuMagestic.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblMuMagestic.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				
 				
-				lblMuMythology.setForeground(Color.LIGHT_GRAY);
+				lblMuMagestic.setForeground(Color.LIGHT_GRAY);
 				
 			}
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				
-				lblMuMythology.setForeground(Color.GRAY);
+				lblMuMagestic.setForeground(Color.GRAY);
 				
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				JOptionPane.showMessageDialog(null, "Creditos\nDesarrollador: Perez4all\nContacto: mumxfiles@gmail.com\nTodos los Derechos Reservados a MuMTeam\u00A9","Acerca de..",JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Crédits: Mu Magestic\nSite Web : mu.magestic.eu","A propos de..",JOptionPane.INFORMATION_MESSAGE);
 				
 				
 			}
@@ -329,9 +330,9 @@ public class MMLauncherss extends JFrame  {
 
 
 		
-		lblMuMythology.setForeground(Color.GRAY);
-		lblMuMythology.setBounds(571, 454, 111, 14);
-		contentPane.add(lblMuMythology);
+		lblMuMagestic.setForeground(Color.GRAY);
+		lblMuMagestic.setBounds(571, 454, 111, 14);
+		contentPane.add(lblMuMagestic);
 		lblPlay.setIcon(icon3);
 		lblPlay.setBounds(705, 414, 96, 37);
 		contentPane.add(lblPlay);
@@ -352,7 +353,7 @@ public class MMLauncherss extends JFrame  {
 		
 		
 		
-		JLabel lblNewLabel_3 = new JLabel("Web");
+		JLabel lblNewLabel_3 = new JLabel("Site Web");
 		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_3.setForeground(Color.WHITE);
 		lblNewLabel_3.addMouseListener(new MouseAdapter() {
@@ -378,7 +379,7 @@ public class MMLauncherss extends JFrame  {
 		
 		
 		
-		JLabel lblForo = new JLabel("Foro");
+		JLabel lblForo = new JLabel("Forum");
 		lblForo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblForo.setForeground(Color.WHITE);
 		lblForo.addMouseListener(new MouseAdapter() {
@@ -394,7 +395,7 @@ public class MMLauncherss extends JFrame  {
 		lblForo.setBounds(686, 271, 106, 23);
 		contentPane.add(lblForo);
 		
-		JLabel lblRanking = new JLabel("Ranking");
+		JLabel lblRanking = new JLabel("Classements");
 		lblRanking.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRanking.setForeground(Color.WHITE);
 		lblRanking.addMouseListener(new MouseAdapter() {
@@ -423,7 +424,7 @@ public class MMLauncherss extends JFrame  {
 		lblRanking.setBounds(687, 305, 106, 23);
 		contentPane.add(lblRanking);
 		
-		JLabel lblConfiguracion = new JLabel("Configuracion");
+		JLabel lblConfiguracion = new JLabel("Configuration");
 		lblConfiguracion.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConfiguracion.setForeground(Color.WHITE);
 		lblConfiguracion.addMouseListener(new MouseAdapter() {
@@ -451,7 +452,7 @@ public class MMLauncherss extends JFrame  {
 		lblTitulo.setBounds(434, 131, 314, 75);
 		contentPane.add(lblTitulo);
 		
-		JLabel lblMinimize = new JLabel("AQUI ESTA EL LABEL");
+		JLabel lblMinimize = new JLabel("Voici le label");
 		lblMinimize.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -470,7 +471,7 @@ public class MMLauncherss extends JFrame  {
 		contentPane.add(lblMinimize);
 		lblMinimize.setBorder(null);
 		
-		JLabel lblClose = new JLabel("AQUI ESTA EL LABEL");
+		JLabel lblClose = new JLabel("Voici le label");
 		lblClose.setBounds(785, 186, 16, 16);
 		contentPane.add(lblClose);
 		lblClose.addMouseListener(new MouseAdapter() {
@@ -548,10 +549,10 @@ public class MMLauncherss extends JFrame  {
                 Runtime.getRuntime().exec("open " + url);
                 
             } else {
-                JOptionPane.showMessageDialog(null,"Porfavor abra su navegador y dirijase a "+ url);
+                JOptionPane.showMessageDialog(null,"S'il vous plait, ouvrez votre navigateur web et allez sur la page : "+ url);
             }
         } catch (IOException e) {
-            System.out.println("Intento fallido de abrir la url " + url);
+            System.out.println("Échec de l'ouverture de l'URL : " + url);
             e.printStackTrace();
         }
     }
@@ -592,14 +593,14 @@ public class MMLauncherss extends JFrame  {
 				                    
 				                    lblLoad.setVisible(false);
 				                    lblPlay.setVisible(true);
-				                    lblNewLabel.setText("Actualizacion Terminada!");
+				                    lblNewLabel.setText("Mise à jour terminée !!");
 				                 
 				
 				                } catch (Exception ex) {
 				
 				                    ex.printStackTrace();
 				
-				                    JOptionPane.showMessageDialog(null, "Un error ocurrio mientas se realizaba la actualizacion!");
+				                    JOptionPane.showMessageDialog(null, "Erreur lors de la mise à jour !");
 			
 				                }
 			
@@ -649,14 +650,14 @@ public class MMLauncherss extends JFrame  {
 				                    
 				                    lblLoad.setVisible(false);
 				                    lblPlay.setVisible(true);
-				                    lblNewLabel.setText("Actualizacion Terminada!");
+				                    lblNewLabel.setText("Mise à jour terminée !!");
 				                 
 				                    
 				                } catch (Exception ex) {
 				
 				                    ex.printStackTrace();
 				
-				                    JOptionPane.showMessageDialog(null, "Un error ocurrio mientas se realizaba la actualizacion!");
+				                    JOptionPane.showMessageDialog(null, "Erreur lors de la mise à jour !");
 			
 				                }
 			
@@ -673,7 +674,7 @@ public class MMLauncherss extends JFrame  {
 		
 		System.gc();
 	
-		 lblNewLabel.setText("Limpiando Archivos Temporales...");
+		 lblNewLabel.setText("Nettoyage des fichiers temporaires...");
 
 		  String path = System.getProperty("user.dir")+"\\update.zip";
 	        File f = new File(path);
@@ -681,11 +682,11 @@ public class MMLauncherss extends JFrame  {
 	        try {
 	            if (java.nio.file.Files.deleteIfExists(f.toPath())) {
 	               
-	            	lblNewLabel.setText("Temporales limpiados");
+	            	lblNewLabel.setText("Fichiers temporaires nettoyés");
 	            	
 	            } else {
 	            	
-	            	lblNewLabel.setText("Porfavor eliminar el archivo update.zip al terminar.");
+	            	lblNewLabel.setText("S'il vous plait, veuillez supprimer le fichier .zip.");
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -710,7 +711,7 @@ public class MMLauncherss extends JFrame  {
 	
 	        long max = conn.getContentLength();
 	
-	        lblNewLabel.setText("Descargando...Tamaño de Actualizacion: "+max+" Bytes");
+	        lblNewLabel.setText("Chargement... Taille de la mise à jour : "+max+" octets");
 	        
 			progressBar.setMaximum((int)max);
 	
@@ -740,7 +741,7 @@ public class MMLauncherss extends JFrame  {
 	        is.close();
 	
 	    
-	        lblNewLabel.setText("Descarga Completa!");
+	        lblNewLabel.setText("Téléchargement terminé !");
 	
 	        progressBar.setValue(0);
 
