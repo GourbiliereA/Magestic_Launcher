@@ -77,7 +77,7 @@ public class Configss extends JFrame {
 		setContentPane(contentPane);
 		setBackground(new Color(0,0,0,0));
 			
-		ImageIcon icon7 = new ImageIcon("Data/Update/marcoo.png");
+		ImageIcon icon7 = new ImageIcon(Configss.class.getResource("marcoo.png"));
 				    
 				    
 				    
@@ -431,7 +431,7 @@ public class Configss extends JFrame {
 		
 		
 		
-		ImageIcon icon = new ImageIcon("Data/Update/wall.jpg");
+		ImageIcon icon = new ImageIcon(Configss.class.getResource("wall.jpg"));
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(icon);
 		lblNewLabel.setBounds(18, 11, 231, 243);

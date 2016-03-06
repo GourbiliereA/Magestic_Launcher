@@ -1,23 +1,13 @@
 
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingWorker;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-
+import java.awt.Image;
+import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Component;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -32,12 +22,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
-
-
-
-import java.awt.SystemColor;
+import javax.swing.SwingWorker;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 
 
@@ -91,12 +85,20 @@ public class MMLauncherss extends JFrame  {
 		setBackground(new Color(0,0,0,0));
 		setMyparent(this);
 		
-		ImageIcon icon22 = new ImageIcon("Data/Update/32x32xx.png");
+		ImageIcon icon22 = new ImageIcon(MMLauncherss.class.getResource("/32x32xx.png"));
 		this.setIconImage(icon22.getImage());
 		
-		ImageIcon icon = new ImageIcon("Data/Update/back2a.png");
+		ImageIcon icon = new ImageIcon(MMLauncherss.class.getResource("/back2a.png"));
 		contentPane.setLayout(null);
 		
+		// Add the name of the server
+		ImageIcon serverNameIcon = new ImageIcon(new ImageIcon(MMLauncherss.class.getResource("/server_name.png")).getImage().getScaledInstance(160, 33, Image.SCALE_DEFAULT));
+		
+		JLabel serverNameLabel = new JLabel("");
+		serverNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		serverNameLabel.setIcon(serverNameIcon);
+		serverNameLabel.setBounds(460, 140, 190, 75);
+		contentPane.add(serverNameLabel);		
 	
 	
 		lblNewLabel = new JLabel("Recherche de mises à jour.");
@@ -211,13 +213,13 @@ public class MMLauncherss extends JFrame  {
 	
 		work.execute();
 		
-		final ImageIcon icon3 = new ImageIcon("Data/Update/jugar.png");
+		final ImageIcon icon3 = new ImageIcon(MMLauncherss.class.getResource("/go.png"));
 		lblPlay = new JLabel("");
 		lblPlay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				
-				ImageIcon icon4 = new ImageIcon("Data/Update/fires.png");
+				ImageIcon icon4 = new ImageIcon(MMLauncherss.class.getResource("/go_hover.png"));
 				lblPlay.setLocation(lblPlay.getX(),lblPlay.getY()-1);
 				lblPlay.setIcon(icon4);
 				PlaySoundss play = new PlaySoundss();
@@ -300,19 +302,19 @@ public class MMLauncherss extends JFrame  {
 				
 			}
 		});
-		ImageIcon iconM = new ImageIcon("Data/Update/32x32xx.png");
+		ImageIcon iconM = new ImageIcon(MMLauncherss.class.getResource("/32x32xx.png"));
 		
 		lblLoad = new JLabel("");
 		lblLoad.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLoad.setVisible(false);
 		lblLoad.setBounds(701, 404, 89, 58);
 		contentPane.add(lblLoad);
-		JLabel iconMM = new JLabel("");
-		iconMM.setHorizontalAlignment(SwingConstants.CENTER);
-	
-		iconMM.setIcon(iconM);
-		iconMM.setBounds(717, 85, 173, 75);
-		contentPane.add(iconMM);
+//		JLabel iconMM = new JLabel("");
+//		iconMM.setHorizontalAlignment(SwingConstants.CENTER);
+//	
+//		iconMM.setIcon(iconM);
+//		iconMM.setBounds(717, 85, 173, 75);
+//		contentPane.add(iconMM);
 		
 		JLabel notice = new JLabel("New label");
 		notice.setFont(new Font("Buxton Sketch", Font.PLAIN, 14));
@@ -334,7 +336,7 @@ public class MMLauncherss extends JFrame  {
 		lblMuMagestic.setBounds(571, 454, 111, 14);
 		contentPane.add(lblMuMagestic);
 		lblPlay.setIcon(icon3);
-		lblPlay.setBounds(705, 414, 96, 37);
+		lblPlay.setBounds(725, 414, 96, 37);
 		contentPane.add(lblPlay);
 		
 		lblNewLabel.setForeground(Color.WHITE);
@@ -560,7 +562,7 @@ public class MMLauncherss extends JFrame  {
 	public void downloadLatest()
 	{
 		lblPlay.setVisible(false);
-		ImageIcon licon = new ImageIcon("Data/Update/load.gif");
+		ImageIcon licon = new ImageIcon(MMLauncherss.class.getResource("load.gif"));
 		lblLoad.setIcon(licon);
 		lblLoad.setVisible(true);
 		
@@ -617,7 +619,7 @@ public class MMLauncherss extends JFrame  {
 	{
 		
 		lblPlay.setVisible(false);
-	 	ImageIcon licon = new ImageIcon("Data/Update/load.gif");
+	 	ImageIcon licon = new ImageIcon(MMLauncherss.class.getResource("/load.gif"));
 		lblLoad.setIcon(licon);
 		lblLoad.setVisible(true);
 		
