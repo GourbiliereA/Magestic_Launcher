@@ -1,6 +1,7 @@
 
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -31,12 +32,12 @@ public class Configss extends JFrame {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private final ButtonGroup buttonGroup_2 = new ButtonGroup();
 	private final ButtonGroup buttonGroup_3 = new ButtonGroup();
-	private JRadioButton rdbtnSi, rdbtnNo;
+	private JRadioButton radioButtonMusic, radioButtonEffects;
 	private Regor reg;
-	private JRadioButton rdbtnMinimizado, rdbtnPantallaCompleta;
+	private JRadioButton radioButtonWindow, radioButtonFullscreen;
 	private Key k = new Key();
-	private final JRadioButton rdbtnx ,rdbtnx_1,rdbtnNewRadioButton ;
-	private JLabel lblNewLabel_2;
+	private final JRadioButton radioButtonRes1024x768 ,radioButtonRes1280x720,radioButtonRes800x600 ;
+	private JLabel labelExit;
 	private JSpinner spinner ;
 	
 	
@@ -85,6 +86,16 @@ public class Configss extends JFrame {
 				    JButton btnNewButton = new JButton("Sauvegarder");
 				    btnNewButton.setBorder(null);
 				    btnNewButton.setBounds(76, 213, 118, 28);
+				    btnNewButton.addMouseListener(new MouseAdapter() {
+				    	@Override
+						public void mouseEntered(MouseEvent e) {
+							setCursor(Cursor.HAND_CURSOR);
+				    	}
+				    	@Override
+						public void mouseExited(MouseEvent e) {
+							setCursor(Cursor.DEFAULT_CURSOR);
+				    	}
+					});
 				    btnNewButton.addActionListener(new ActionListener() {
 				    	
 				    	
@@ -98,18 +109,18 @@ public class Configss extends JFrame {
 				    			reg = new Regor();
 				    	
 				    		
-				    		if(rdbtnNewRadioButton.isSelected())//800x600
+				    		if(radioButtonRes800x600.isSelected())//800x600
 				    		{	
 				    			reg.saveDword(k, "DisplayDeviceModeIndex", "0");
 				    			
 				    		}
-				    		else if(rdbtnx.isSelected()){//1024x768
+				    		else if(radioButtonRes1024x768.isSelected()){//1024x768
 				    			
 				    			
 				    			reg.saveDword(k, "DisplayDeviceModeIndex", "1");
 				    			
 				    		}
-				    		else if(rdbtnx_1.isSelected()){//1280x720
+				    		else if(radioButtonRes1280x720.isSelected()){//1280x720
 				    			
 				    			reg.saveDword(k, "DisplayDeviceModeIndex", "2");
 				    			
@@ -117,23 +128,23 @@ public class Configss extends JFrame {
 				    		}
 				    		//SOUND
 				    		
-				    		if(rdbtnSi.isSelected())//Musica
+				    		if(radioButtonMusic.isSelected())//Musica
 				    		{	
 				    			reg.saveDword(k, "MusicOn", "1");
 				    			
 				    		}
-				    		else if(!rdbtnSi.isSelected())
+				    		else if(!radioButtonMusic.isSelected())
 				    		{
 				    			reg.saveDword(k, "MusicOn", "0");
 				    			
 				    		}
-				    		if(rdbtnNo.isSelected())//Efectos
+				    		if(radioButtonEffects.isSelected())//Efectos
 				    		{
 	
 				    			reg.saveDword(k, "SoundOn", "1");
 				    			
 				    		}
-				    		else if(!rdbtnNo.isSelected())
+				    		else if(!radioButtonEffects.isSelected())
 				    		{
 				    			
 				    			reg.saveDword(k, "SoundOn", "0");
@@ -143,12 +154,12 @@ public class Configss extends JFrame {
 				    		
 				    		//VISUALIZACION
 				    		
-				    		if(rdbtnMinimizado.isSelected())
+				    		if(radioButtonWindow.isSelected())
 				    		{
 				    			reg.saveDword(k, "FullScreenMode", "0");
 				    			
 				    		}
-				    		else if(rdbtnPantallaCompleta.isSelected()){
+				    		else if(radioButtonFullscreen.isSelected()){
 				    			
 				    			reg.saveDword(k, "FullScreenMode", "1");
 				    			
@@ -173,58 +184,116 @@ public class Configss extends JFrame {
 				    
 					contentPane.setBackground(new Color(0,0,0,0));;
 				    
-				    lblNewLabel_2 = new JLabel("X");
-				    lblNewLabel_2.addMouseListener(new MouseAdapter() {
+				    labelExit = new JLabel("X");
+				    labelExit.addMouseListener(new MouseAdapter() {
 				    	@Override
 				    	public void mouseClicked(MouseEvent arg0) {
 				    		
 				    		dispose();
 				    		
 				    	}
+				    	@Override
+				    	public void mouseEntered(MouseEvent e) {
+				    		setCursor(Cursor.HAND_CURSOR);
+				    	}
+				    	@Override
+				    	public void mouseExited(MouseEvent e) {
+				    		setCursor(Cursor.DEFAULT_CURSOR);
+				    	}
 				    });
-				    lblNewLabel_2.setForeground(SystemColor.inactiveCaption);
-				    lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-				    lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-				    lblNewLabel_2.setBounds(219, 14, 26, 23);
-				    contentPane.add(lblNewLabel_2);
+				    labelExit.setForeground(SystemColor.inactiveCaption);
+				    labelExit.setFont(new Font("Tahoma", Font.BOLD, 11));
+				    labelExit.setHorizontalAlignment(SwingConstants.CENTER);
+				    labelExit.setBounds(219, 14, 26, 23);
+				    contentPane.add(labelExit);
 				    
-				    rdbtnNo = new JRadioButton("Effets (On/Off) ");
-				    rdbtnNo.setForeground(Color.WHITE);
-				    rdbtnNo.setOpaque(false);
-				    rdbtnNo.setBounds(125, 107, 120, 23);
-				    contentPane.add(rdbtnNo);
+				    radioButtonEffects = new JRadioButton("Effets (On/Off) ");
+				    radioButtonEffects.setForeground(Color.WHITE);
+				    radioButtonEffects.setOpaque(false);
+				    radioButtonEffects.setBounds(125, 107, 120, 23);
+				    radioButtonEffects.addMouseListener(new MouseAdapter() {
+				    	@Override
+						public void mouseEntered(MouseEvent e) {
+							setCursor(Cursor.HAND_CURSOR);
+				    	}
+				    	@Override
+						public void mouseExited(MouseEvent e) {
+							setCursor(Cursor.DEFAULT_CURSOR);
+				    	}
+					});
+				    contentPane.add(radioButtonEffects);
 				    
-				    rdbtnx_1 = new JRadioButton("1280x720");
-				    rdbtnx_1.setForeground(Color.WHITE);
-				    rdbtnx_1.setOpaque(false);
-				    buttonGroup.add(rdbtnx_1);
-				    rdbtnx_1.setBounds(20, 61, 109, 23);
-				    contentPane.add(rdbtnx_1);
+				    radioButtonRes1280x720 = new JRadioButton("1280x720");
+				    radioButtonRes1280x720.setForeground(Color.WHITE);
+				    radioButtonRes1280x720.setOpaque(false);
+				    buttonGroup.add(radioButtonRes1280x720);
+				    radioButtonRes1280x720.setBounds(20, 61, 109, 23);
+				    radioButtonRes1280x720.addMouseListener(new MouseAdapter() {
+				    	@Override
+						public void mouseEntered(MouseEvent e) {
+							setCursor(Cursor.HAND_CURSOR);
+				    	}
+				    	@Override
+						public void mouseExited(MouseEvent e) {
+							setCursor(Cursor.DEFAULT_CURSOR);
+				    	}
+					});
+				    contentPane.add(radioButtonRes1280x720);
 				    
-				    rdbtnx = new JRadioButton("1024x768");
-				    rdbtnx.setForeground(Color.WHITE);
-				    rdbtnx.setOpaque(false);
-				    buttonGroup.add(rdbtnx);
-				    rdbtnx.setBounds(121, 35, 109, 23);
-				    contentPane.add(rdbtnx);
+				    radioButtonRes1024x768 = new JRadioButton("1024x768");
+				    radioButtonRes1024x768.setForeground(Color.WHITE);
+				    radioButtonRes1024x768.setOpaque(false);
+				    buttonGroup.add(radioButtonRes1024x768);
+				    radioButtonRes1024x768.setBounds(121, 35, 109, 23);
+				    radioButtonRes1024x768.addMouseListener(new MouseAdapter() {
+				    	@Override
+						public void mouseEntered(MouseEvent e) {
+							setCursor(Cursor.HAND_CURSOR);
+				    	}
+				    	@Override
+						public void mouseExited(MouseEvent e) {
+							setCursor(Cursor.DEFAULT_CURSOR);
+				    	}
+					});
+				    contentPane.add(radioButtonRes1024x768);
 				    contentPane.add(btnNewButton);
 		
 					
-				    rdbtnPantallaCompleta = new JRadioButton("Plein Écran");
-				    buttonGroup_3.add(rdbtnPantallaCompleta);
-				    rdbtnPantallaCompleta.setForeground(Color.WHITE);
-				    rdbtnPantallaCompleta.setOpaque(false);
-				    rdbtnPantallaCompleta.setBounds(20, 182, 163, 23);
-				    contentPane.add(rdbtnPantallaCompleta);
+				    radioButtonFullscreen = new JRadioButton("Plein Écran");
+				    buttonGroup_3.add(radioButtonFullscreen);
+				    radioButtonFullscreen.setForeground(Color.WHITE);
+				    radioButtonFullscreen.setOpaque(false);
+				    radioButtonFullscreen.setBounds(20, 182, 163, 23);
+				    radioButtonFullscreen.addMouseListener(new MouseAdapter() {
+				    	@Override
+						public void mouseEntered(MouseEvent e) {
+							setCursor(Cursor.HAND_CURSOR);
+				    	}
+				    	@Override
+						public void mouseExited(MouseEvent e) {
+							setCursor(Cursor.DEFAULT_CURSOR);
+				    	}
+					});
+				    contentPane.add(radioButtonFullscreen);
 		
 		
 		
-		rdbtnMinimizado = new JRadioButton("Mode Fenêtre");
-		buttonGroup_3.add(rdbtnMinimizado);
-		rdbtnMinimizado.setForeground(Color.WHITE);
-		rdbtnMinimizado.setOpaque(false);
-		rdbtnMinimizado.setBounds(19, 158, 109, 23);
-		contentPane.add(rdbtnMinimizado);
+		radioButtonWindow = new JRadioButton("Mode Fenêtre");
+		buttonGroup_3.add(radioButtonWindow);
+		radioButtonWindow.setForeground(Color.WHITE);
+		radioButtonWindow.setOpaque(false);
+		radioButtonWindow.setBounds(19, 158, 109, 23);
+		radioButtonWindow.addMouseListener(new MouseAdapter() {
+	    	@Override
+			public void mouseEntered(MouseEvent e) {
+				setCursor(Cursor.HAND_CURSOR);
+	    	}
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.DEFAULT_CURSOR);
+	    	}
+		});
+		contentPane.add(radioButtonWindow);
 		
 		JLabel lblIniciar = new JLabel("Mode :");
 		lblIniciar.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -232,11 +301,21 @@ public class Configss extends JFrame {
 		lblIniciar.setBounds(21, 137, 46, 14);
 		contentPane.add(lblIniciar);
 		
-		rdbtnSi = new JRadioButton("Musique (On/Off) ");
-		rdbtnSi.setForeground(Color.WHITE);
-		rdbtnSi.setOpaque(false);
-		rdbtnSi.setBounds(20, 107,115, 23);
-		contentPane.add(rdbtnSi);
+		radioButtonMusic = new JRadioButton("Musique (On/Off) ");
+		radioButtonMusic.setForeground(Color.WHITE);
+		radioButtonMusic.setOpaque(false);
+		radioButtonMusic.setBounds(20, 107,115, 23);
+		radioButtonMusic.addMouseListener(new MouseAdapter() {
+	    	@Override
+			public void mouseEntered(MouseEvent e) {
+				setCursor(Cursor.HAND_CURSOR);
+	    	}
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.DEFAULT_CURSOR);
+	    	}
+		});
+		contentPane.add(radioButtonMusic);
 		
 	
 		
@@ -253,12 +332,22 @@ public class Configss extends JFrame {
 		contentPane.add(lblResolucion);
 		
 		
-		rdbtnNewRadioButton = new JRadioButton("800x600");
-		rdbtnNewRadioButton.setForeground(Color.WHITE);
-		rdbtnNewRadioButton.setOpaque(false);
-		buttonGroup.add(rdbtnNewRadioButton);
-		rdbtnNewRadioButton.setBounds(20, 35, 109, 23);
-		contentPane.add(rdbtnNewRadioButton);
+		radioButtonRes800x600 = new JRadioButton("800x600");
+		radioButtonRes800x600.setForeground(Color.WHITE);
+		radioButtonRes800x600.setOpaque(false);
+		buttonGroup.add(radioButtonRes800x600);
+		radioButtonRes800x600.setBounds(20, 35, 109, 23);
+		radioButtonRes800x600.addMouseListener(new MouseAdapter() {
+	    	@Override
+			public void mouseEntered(MouseEvent e) {
+				setCursor(Cursor.HAND_CURSOR);
+	    	}
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.DEFAULT_CURSOR);
+	    	}
+		});
+		contentPane.add(radioButtonRes800x600);
 		
 		JLabel lblVolumen = new JLabel("Volume:");
 		lblVolumen.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -289,19 +378,19 @@ public class Configss extends JFrame {
 			case "0x0":
 			{
 				
-				rdbtnNewRadioButton.setSelected(true);
+				radioButtonRes800x600.setSelected(true);
 				
 			}
 			case "0x1":
 			{
-				rdbtnx.setSelected(true);
+				radioButtonRes1024x768.setSelected(true);
 				
 				
 			}break;
 			case "0x2":
 			{
 				
-				rdbtnx_1.setSelected(true);
+				radioButtonRes1280x720.setSelected(true);
 				
 				
 			}break;
@@ -390,7 +479,7 @@ public class Configss extends JFrame {
 			if(sound.equals("0x1"))
 			{
 				
-				rdbtnNo.setSelected(true);
+				radioButtonEffects.setSelected(true);
 				
 				
 			}
@@ -400,7 +489,7 @@ public class Configss extends JFrame {
 			if(music.equals("0x1"))
 			{	
 				
-				rdbtnSi.setSelected(true);
+				radioButtonMusic.setSelected(true);
 				
 				
 			}
@@ -411,13 +500,13 @@ public class Configss extends JFrame {
 		    if(ventana.equals("0x0"))
 			{
 				
-		    	rdbtnMinimizado.setSelected(true);
+		    	radioButtonWindow.setSelected(true);
 				
 				
 			}
 		    else
 		    {
-		    	rdbtnPantallaCompleta.setSelected(true);	
+		    	radioButtonFullscreen.setSelected(true);	
 		    	
 		    }
 		    
@@ -431,7 +520,7 @@ public class Configss extends JFrame {
 		
 		
 		
-		ImageIcon icon = new ImageIcon(Configss.class.getResource("wall.jpg"));
+		ImageIcon icon = new ImageIcon(Configss.class.getResource("font.png"));
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(icon);
 		lblNewLabel.setBounds(18, 11, 231, 243);

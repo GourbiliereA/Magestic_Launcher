@@ -1,6 +1,7 @@
 
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
@@ -35,17 +36,19 @@ import javax.swing.border.EmptyBorder;
 
 
 
+@SuppressWarnings("deprecation")
 public class MMLauncherss extends JFrame  {
 
 	private String ver ;
 	private Thread downloader;
     private boolean runState = true;
 	private JPanel contentPane;
-	private JLabel lblPlay,lblNewLabel,lblLoad;
+	private JLabel labelPlay,lblNewLabel,labelLoad;
 	private JProgressBar progressBar;
 	private static JFrame myparent;
 	private String temp = ""; 
 	private Zipperss zip;
+	private Configss config;
 	
 
 
@@ -85,7 +88,7 @@ public class MMLauncherss extends JFrame  {
 		setBackground(new Color(0,0,0,0));
 		setMyparent(this);
 		
-		ImageIcon icon22 = new ImageIcon(MMLauncherss.class.getResource("/32x32xx.png"));
+		ImageIcon icon22 = new ImageIcon(MMLauncherss.class.getResource("/favicon.png"));
 		this.setIconImage(icon22.getImage());
 		
 		ImageIcon icon = new ImageIcon(MMLauncherss.class.getResource("/back2a.png"));
@@ -114,7 +117,7 @@ public class MMLauncherss extends JFrame  {
 					
 				
 					runState = false;
-					lblPlay.setEnabled(false);
+					labelPlay.setEnabled(false);
 					
 					lblNewLabel.setText("Mise à jour disponible!");
 		
@@ -154,7 +157,7 @@ public class MMLauncherss extends JFrame  {
 					
 					
 					runState = false;
-					lblPlay.setEnabled(false);
+					labelPlay.setEnabled(false);
 					
 					lblNewLabel.setText("Mise à jour disponible!");
 		
@@ -214,14 +217,15 @@ public class MMLauncherss extends JFrame  {
 		work.execute();
 		
 		final ImageIcon icon3 = new ImageIcon(MMLauncherss.class.getResource("/go.png"));
-		lblPlay = new JLabel("");
-		lblPlay.addMouseListener(new MouseAdapter() {
+		labelPlay = new JLabel("");
+		labelPlay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				
 				ImageIcon icon4 = new ImageIcon(MMLauncherss.class.getResource("/go_hover.png"));
-				lblPlay.setLocation(lblPlay.getX(),lblPlay.getY()-1);
-				lblPlay.setIcon(icon4);
+				setCursor(Cursor.HAND_CURSOR);
+				labelPlay.setLocation(labelPlay.getX(),labelPlay.getY()-1);
+				labelPlay.setIcon(icon4);
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
 				
@@ -229,8 +233,9 @@ public class MMLauncherss extends JFrame  {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				
-				lblPlay.setLocation(lblPlay.getX(),lblPlay.getY()+1);
-				lblPlay.setIcon(icon3);
+				labelPlay.setLocation(labelPlay.getX(),labelPlay.getY()+1);
+				labelPlay.setIcon(icon3);
+				setCursor(Cursor.DEFAULT_CURSOR);
 				
 			}
 			@Override
@@ -249,7 +254,7 @@ public class MMLauncherss extends JFrame  {
 			        **/
 			        
 			        try {
-			        	Process process = new ProcessBuilder(System.getProperty("user.dir")+"\\main.exe").start();
+			        	Process process = new ProcessBuilder(new String[] {"cmd.exe", "/C", System.getProperty("user.dir")+"\\main.exe"}).start();
 						//Process pp=run.exec(System.getProperty("user.dir")+"\\Starter.exe" , "-fullscreen");
 			  
 					} catch (IOException e1) {
@@ -286,12 +291,14 @@ public class MMLauncherss extends JFrame  {
 				
 				
 				lblMuMagestic.setForeground(Color.LIGHT_GRAY);
+	    		setCursor(Cursor.HAND_CURSOR);
 				
 			}
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				
 				lblMuMagestic.setForeground(Color.GRAY);
+	    		setCursor(Cursor.DEFAULT_CURSOR);
 				
 			}
 			@Override
@@ -299,16 +306,15 @@ public class MMLauncherss extends JFrame  {
 				
 				JOptionPane.showMessageDialog(null, "Crédits: Mu Magestic\nSite Web : mu.magestic.eu","A propos de..",JOptionPane.INFORMATION_MESSAGE);
 				
-				
 			}
 		});
 		ImageIcon iconM = new ImageIcon(MMLauncherss.class.getResource("/32x32xx.png"));
 		
-		lblLoad = new JLabel("");
-		lblLoad.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLoad.setVisible(false);
-		lblLoad.setBounds(701, 404, 89, 58);
-		contentPane.add(lblLoad);
+		labelLoad = new JLabel("");
+		labelLoad.setHorizontalAlignment(SwingConstants.CENTER);
+		labelLoad.setVisible(false);
+		labelLoad.setBounds(701, 404, 89, 58);
+		contentPane.add(labelLoad);
 //		JLabel iconMM = new JLabel("");
 //		iconMM.setHorizontalAlignment(SwingConstants.CENTER);
 //	
@@ -335,9 +341,9 @@ public class MMLauncherss extends JFrame  {
 		lblMuMagestic.setForeground(Color.GRAY);
 		lblMuMagestic.setBounds(571, 454, 111, 14);
 		contentPane.add(lblMuMagestic);
-		lblPlay.setIcon(icon3);
-		lblPlay.setBounds(725, 414, 96, 37);
-		contentPane.add(lblPlay);
+		labelPlay.setIcon(icon3);
+		labelPlay.setBounds(725, 414, 96, 37);
+		contentPane.add(labelPlay);
 		
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 8));
@@ -362,9 +368,16 @@ public class MMLauncherss extends JFrame  {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				
+				setCursor(Cursor.HAND_CURSOR);
+				lblNewLabel_3.setForeground(new Color(208, 0, 0));
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
 				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.DEFAULT_CURSOR);
+				lblNewLabel_3.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -390,7 +403,14 @@ public class MMLauncherss extends JFrame  {
 				
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
+				setCursor(Cursor.HAND_CURSOR);
+				lblForo.setForeground(new Color(208, 0, 0));
 				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.DEFAULT_CURSOR);
+				lblForo.setForeground(Color.white);
 			}
 		});
 		lblForo.setBorder(null);
@@ -406,7 +426,14 @@ public class MMLauncherss extends JFrame  {
 				
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
+				setCursor(Cursor.HAND_CURSOR);
+				lblRanking.setForeground(new Color(208, 0, 0));
 				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.DEFAULT_CURSOR);
+				lblRanking.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -426,36 +453,43 @@ public class MMLauncherss extends JFrame  {
 		lblRanking.setBounds(687, 305, 106, 23);
 		contentPane.add(lblRanking);
 		
-		JLabel lblConfiguracion = new JLabel("Configuration");
-		lblConfiguracion.setHorizontalAlignment(SwingConstants.CENTER);
-		lblConfiguracion.setForeground(Color.WHITE);
-		lblConfiguracion.addMouseListener(new MouseAdapter() {
+		JLabel labelConfiguration = new JLabel("Configuration");
+		labelConfiguration.setHorizontalAlignment(SwingConstants.CENTER);
+		labelConfiguration.setForeground(Color.WHITE);
+		labelConfiguration.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
+				setCursor(Cursor.HAND_CURSOR);
+				labelConfiguration.setForeground(new Color(208, 0, 0));
 				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.DEFAULT_CURSOR);
+				labelConfiguration.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				Configss config = new Configss();
+				config = new Configss();
 				config.setVisible(true);
 				
 				
 			}
 		});
-		lblConfiguracion.setBorder(null);
-		lblConfiguracion.setBounds(689, 337, 106, 23);
-		contentPane.add(lblConfiguracion);
+		labelConfiguration.setBorder(null);
+		labelConfiguration.setBounds(689, 337, 106, 23);
+		contentPane.add(labelConfiguration);
 		JLabel lblTitulo = new JLabel("");
 
 		lblTitulo.setBounds(434, 131, 314, 75);
 		contentPane.add(lblTitulo);
 		
-		JLabel lblMinimize = new JLabel("Voici le label");
-		lblMinimize.addMouseListener(new MouseAdapter() {
+		JLabel labelMinimize = new JLabel("");
+		labelMinimize.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
@@ -467,19 +501,29 @@ public class MMLauncherss extends JFrame  {
 				
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
+				setCursor(Cursor.HAND_CURSOR);	
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.DEFAULT_CURSOR);	
 			}
 		});
-		lblMinimize.setBounds(766, 186, 16, 16);
-		contentPane.add(lblMinimize);
-		lblMinimize.setBorder(null);
+		labelMinimize.setBounds(766, 186, 16, 16);
+		contentPane.add(labelMinimize);
+		labelMinimize.setBorder(null);
 		
-		JLabel lblClose = new JLabel("Voici le label");
-		lblClose.setBounds(785, 186, 16, 16);
-		contentPane.add(lblClose);
-		lblClose.addMouseListener(new MouseAdapter() {
+		JLabel labelClose = new JLabel("");
+		labelClose.setBounds(785, 186, 16, 16);
+		contentPane.add(labelClose);
+		labelClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+				// Try to close Config's JFrame to close it if it's still opened
+				try {
+					config.dispose();
+				} catch (Exception e) {
+					
+				}
 				dispose();
 				
 			}
@@ -488,12 +532,16 @@ public class MMLauncherss extends JFrame  {
 				
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
+				setCursor(Cursor.HAND_CURSOR);				
 				
-				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.DEFAULT_CURSOR);	
 			}
 		});
 		
-		lblClose.setBorder(null);
+		labelClose.setBorder(null);
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setBounds(0, 0, 890, 590);
 		contentPane.add(lblBackground);
@@ -561,10 +609,10 @@ public class MMLauncherss extends JFrame  {
 	
 	public void downloadLatest()
 	{
-		lblPlay.setVisible(false);
+		labelPlay.setVisible(false);
 		ImageIcon licon = new ImageIcon(MMLauncherss.class.getResource("load.gif"));
-		lblLoad.setIcon(licon);
-		lblLoad.setVisible(true);
+		labelLoad.setIcon(licon);
+		labelLoad.setVisible(true);
 		
 		
 		downloader = new Thread(
@@ -588,13 +636,13 @@ public class MMLauncherss extends JFrame  {
 				         
 				                    cleanup();
 				                    
-				                    lblPlay.setEnabled(true);
+				                    labelPlay.setEnabled(true);
 
 		
 				                    runState = true;
 				                    
-				                    lblLoad.setVisible(false);
-				                    lblPlay.setVisible(true);
+				                    labelLoad.setVisible(false);
+				                    labelPlay.setVisible(true);
 				                    lblNewLabel.setText("Mise à jour terminée !!");
 				                 
 				
@@ -618,10 +666,10 @@ public class MMLauncherss extends JFrame  {
 	public void downloadAll()
 	{
 		
-		lblPlay.setVisible(false);
+		labelPlay.setVisible(false);
 	 	ImageIcon licon = new ImageIcon(MMLauncherss.class.getResource("/load.gif"));
-		lblLoad.setIcon(licon);
-		lblLoad.setVisible(true);
+		labelLoad.setIcon(licon);
+		labelLoad.setVisible(true);
 		
 		downloader = new Thread(
 			
@@ -644,14 +692,14 @@ public class MMLauncherss extends JFrame  {
 				         
 				                    cleanup();
 				                    
-				                    lblPlay.setEnabled(true);
+				                    labelPlay.setEnabled(true);
 
 		
 				                    runState = true;
 				                    
 				                    
-				                    lblLoad.setVisible(false);
-				                    lblPlay.setVisible(true);
+				                    labelLoad.setVisible(false);
+				                    labelPlay.setVisible(true);
 				                    lblNewLabel.setText("Mise à jour terminée !!");
 				                 
 				                    
