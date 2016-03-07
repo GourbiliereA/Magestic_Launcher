@@ -11,17 +11,17 @@ import java.net.URL;
 
 public class Updaterss {
 	
-	private final static String historyURL = "http://WEBPAGE/ClientVersion/history.html";
+	private final static String historyURL = "http://mu.magestic.eu/Launcher/history.html";
 
 
 	 public static String getLatestVersion() throws IOException
 	
 	     {
 	
-		 String data = getData("http://WEBPAGE/ClientVersion/version.html");
+		 String data = getData("http://mu.magestic.eu/Launcher/version.html");
 
 	
-		 return data.substring(data.indexOf("[version]")+9,data.indexOf("[/version]"));
+		 return data.substring(0,(data.length())-1);
 
 	     }
 

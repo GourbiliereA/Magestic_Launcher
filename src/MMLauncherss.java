@@ -21,6 +21,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -45,7 +46,7 @@ public class MMLauncherss extends JFrame  {
 	private Thread downloader;
     private boolean runState = true;
 	private JPanel contentPane;
-	private JLabel labelPlay,lblNewLabel,labelLoad;
+	private JLabel labelPlay,labelCenter,labelLoad;
 	private JProgressBar progressBar;
 	private static JFrame myparent;
 	private String temp = ""; 
@@ -120,7 +121,7 @@ public class MMLauncherss extends JFrame  {
 		contentPane.setLayout(null);
 		
 		// Add the name of the server
-		ImageIcon serverNameIcon = new ImageIcon(new ImageIcon(MMLauncherss.class.getResource("/server_name.png")).getImage().getScaledInstance(160, 33, Image.SCALE_DEFAULT));
+		ImageIcon serverNameIcon = new ImageIcon(new ImageIcon(MMLauncherss.class.getResource("/server_name2.png")).getImage().getScaledInstance(160, 33, Image.SCALE_DEFAULT));
 		
 		JLabel serverNameLabel = new JLabel("");
 		serverNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -129,7 +130,7 @@ public class MMLauncherss extends JFrame  {
 		contentPane.add(serverNameLabel);		
 	
 	
-		lblNewLabel = new JLabel("Recherche de mises à jour.");
+		labelCenter = new JLabel("Recherche de mises à jour.");
 		SwingWorker work = new SwingWorker() {
 
 			@Override
@@ -144,10 +145,10 @@ public class MMLauncherss extends JFrame  {
 					runState = false;
 					labelPlay.setEnabled(false);
 					
-					lblNewLabel.setText("Mise à jour disponible!");
+					labelCenter.setText("Mise à jour disponible!");
 		
 					Thread.sleep(1200);
-					lblNewLabel.setText("Contact avec le serveur de téléchargement...");
+					labelCenter.setText("Contact avec le serveur de téléchargement...");
 					downloadAll();
 					
 					
@@ -184,10 +185,10 @@ public class MMLauncherss extends JFrame  {
 					runState = false;
 					labelPlay.setEnabled(false);
 					
-					lblNewLabel.setText("Mise à jour disponible!");
+					labelCenter.setText("Mise à jour disponible!");
 		
 					Thread.sleep(1200);
-					lblNewLabel.setText("Contact avec le serveur de téléchargement...");
+					labelCenter.setText("Contact avec le serveur de téléchargement...");
 					downloadLatest();
 					
 					
@@ -222,14 +223,14 @@ public class MMLauncherss extends JFrame  {
 				
 					for(int i = 0; i<3;i++)
 					{
-					lblNewLabel.setText("Recherche de mise à jour. .");
+					labelCenter.setText("Recherche de mise à jour. .");
 					Thread.sleep(500);
-					lblNewLabel.setText("Recherche de mise à jour. . .");
+					labelCenter.setText("Recherche de mise à jour. . .");
 					Thread.sleep(500);
-					lblNewLabel.setText("Recherche de mise à jour.");
+					labelCenter.setText("Recherche de mise à jour.");
 					Thread.sleep(500);
 					}
-					lblNewLabel.setText("Aucune mise à jour nécessaire");
+					labelCenter.setText("Aucune mise à jour nécessaire");
 					
 				}
 
@@ -241,15 +242,15 @@ public class MMLauncherss extends JFrame  {
 	
 		work.execute();
 		
-		final ImageIcon icon3 = new ImageIcon(MMLauncherss.class.getResource("/go.png"));
+		final ImageIcon iconPlay = new ImageIcon(MMLauncherss.class.getResource("/jouer.png"));
 		labelPlay = new JLabel("");
 		labelPlay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				
-				ImageIcon icon4 = new ImageIcon(MMLauncherss.class.getResource("/go_hover.png"));
+				ImageIcon icon4 = new ImageIcon(MMLauncherss.class.getResource("/jouer_hover.png"));
 				setCursor(Cursor.HAND_CURSOR);
-				labelPlay.setLocation(labelPlay.getX(),labelPlay.getY()-1);
+				labelPlay.setLocation(labelPlay.getX(),labelPlay.getY());
 				labelPlay.setIcon(icon4);
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
@@ -258,8 +259,8 @@ public class MMLauncherss extends JFrame  {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				
-				labelPlay.setLocation(labelPlay.getX(),labelPlay.getY()+1);
-				labelPlay.setIcon(icon3);
+				labelPlay.setLocation(labelPlay.getX(),labelPlay.getY());
+				labelPlay.setIcon(iconPlay);
 				setCursor(Cursor.DEFAULT_CURSOR);
 				
 			}
@@ -347,7 +348,21 @@ public class MMLauncherss extends JFrame  {
 //		iconMM.setBounds(717, 85, 173, 75);
 //		contentPane.add(iconMM);
 		
-		JLabel notice = new JLabel("New label");
+		/**
+		 * We get the distant file history.html to display it
+		 */
+		URL url = new URL("http://mu.magestic.eu/Launcher/history.html"); 
+		InputStreamReader ipsr = new InputStreamReader(url.openStream()); 
+		BufferedReader reader = new BufferedReader(ipsr); 
+		String labelCenterText = null;
+		while(reader.ready())
+		{
+			labelCenterText = reader.readLine();
+			
+		}
+		reader.close();
+		
+		JLabel notice = new JLabel(labelCenterText);
 		notice.setFont(new Font("Buxton Sketch", Font.PLAIN, 14));
 		notice.setForeground(SystemColor.menu);
 		notice.setBorder(null);
@@ -366,14 +381,14 @@ public class MMLauncherss extends JFrame  {
 		lblMuMagestic.setForeground(Color.GRAY);
 		lblMuMagestic.setBounds(571, 454, 111, 14);
 		contentPane.add(lblMuMagestic);
-		labelPlay.setIcon(icon3);
-		labelPlay.setBounds(725, 414, 96, 37);
+		labelPlay.setIcon(iconPlay);
+		labelPlay.setBounds(705, 414, 96, 37);
 		contentPane.add(labelPlay);
 		
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		lblNewLabel.setBounds(363, 411, 184, 14);
-		contentPane.add(lblNewLabel);
+		labelCenter.setForeground(Color.WHITE);
+		labelCenter.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		labelCenter.setBounds(363, 411, 184, 14);
+		contentPane.add(labelCenter);
 		
 	
 		progressBar = new JProgressBar();
@@ -386,15 +401,15 @@ public class MMLauncherss extends JFrame  {
 		
 		
 		
-		JLabel lblNewLabel_3 = new JLabel("Site Web");
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_3.setForeground(Color.WHITE);
-		lblNewLabel_3.addMouseListener(new MouseAdapter() {
+		JLabel LabelWebsite = new JLabel("Site Web");
+		LabelWebsite.setHorizontalAlignment(SwingConstants.CENTER);
+		LabelWebsite.setForeground(Color.WHITE);
+		LabelWebsite.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				
 				setCursor(Cursor.HAND_CURSOR);
-				lblNewLabel_3.setForeground(new Color(208, 0, 0));
+				LabelWebsite.setForeground(new Color(208, 0, 0));
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
 				
@@ -402,45 +417,52 @@ public class MMLauncherss extends JFrame  {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				setCursor(Cursor.DEFAULT_CURSOR);
-				lblNewLabel_3.setForeground(Color.white);
+				LabelWebsite.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 		
 				try{
-				openURL("WEBPAGE URL");
+					openURL("http://mu.magestic.eu/");
 				}catch(Exception e)
 				{}
 			}
 		});
-		lblNewLabel_3.setBorder(null);
-		lblNewLabel_3.setBounds(687, 238, 106, 23);
-		contentPane.add(lblNewLabel_3);
+		LabelWebsite.setBorder(null);
+		LabelWebsite.setBounds(687, 238, 106, 23);
+		contentPane.add(LabelWebsite);
 		
 		
 		
-		JLabel lblForo = new JLabel("Forum");
-		lblForo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblForo.setForeground(Color.WHITE);
-		lblForo.addMouseListener(new MouseAdapter() {
+		JLabel labelForum = new JLabel("Forum");
+		labelForum.setHorizontalAlignment(SwingConstants.CENTER);
+		labelForum.setForeground(Color.WHITE);
+		labelForum.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
 				setCursor(Cursor.HAND_CURSOR);
-				lblForo.setForeground(new Color(208, 0, 0));
+				labelForum.setForeground(new Color(208, 0, 0));
 				
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
 				setCursor(Cursor.DEFAULT_CURSOR);
-				lblForo.setForeground(Color.white);
+				labelForum.setForeground(Color.white);
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try{
+					openURL("http://mu.magestic.eu/Forum");
+				}catch(Exception e2)
+				{}
 			}
 		});
-		lblForo.setBorder(null);
-		lblForo.setBounds(686, 271, 106, 23);
-		contentPane.add(lblForo);
+		labelForum.setBorder(null);
+		labelForum.setBounds(686, 271, 106, 23);
+		contentPane.add(labelForum);
 		
 		JLabel lblRanking = new JLabel("Classements");
 		lblRanking.setHorizontalAlignment(SwingConstants.CENTER);
@@ -464,7 +486,7 @@ public class MMLauncherss extends JFrame  {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				try{
-				openURL("RANKINGS URL");
+				openURL("http://mu.magestic.eu/Classement_Joueurs");
 				}catch(Exception e)
 				{
 					
@@ -599,8 +621,21 @@ public class MMLauncherss extends JFrame  {
 		reader.close();
 		
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(null, "No se ecuentra version.ver");
+			// File creation with version 0.0
+			File file = new File("version.ver");
+			FileWriter fw;
+			try {
+				fw = new FileWriter(file.getAbsoluteFile());
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write("[version]0.0[/version]");
+				bw.close();
+				
+				// We call again readVer()
+				readVer();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -655,7 +690,7 @@ public class MMLauncherss extends JFrame  {
 				            
 				                    zip = new Zipperss();
 				                    zip.setBar(progressBar);
-				                    zip.setLabel(lblNewLabel);
+				                    zip.setLabel(labelCenter);
 				                    zip.UnZip();
 				                    
 				         
@@ -668,13 +703,13 @@ public class MMLauncherss extends JFrame  {
 				                    
 				                    labelLoad.setVisible(false);
 				                    labelPlay.setVisible(true);
-				                    lblNewLabel.setText("Mise à jour terminée !!");
+				                    labelCenter.setText("Mise à jour terminée !!");
 				                 
 				
 				                } catch (Exception ex) {
 				
 				                    ex.printStackTrace();
-				
+				                    System.out.println(ex.getMessage());
 				                    JOptionPane.showMessageDialog(null, "Erreur lors de la mise à jour !");
 			
 				                }
@@ -711,7 +746,7 @@ public class MMLauncherss extends JFrame  {
 				            
 				                    zip = new Zipperss();
 				                    zip.setBar(progressBar);
-				                    zip.setLabel(lblNewLabel);
+				                    zip.setLabel(labelCenter);
 				                    zip.UnZip();
 				                    
 				         
@@ -725,7 +760,7 @@ public class MMLauncherss extends JFrame  {
 				                    
 				                    labelLoad.setVisible(false);
 				                    labelPlay.setVisible(true);
-				                    lblNewLabel.setText("Mise à jour terminée !!");
+				                    labelCenter.setText("Mise à jour terminée !!");
 				                 
 				                    
 				                } catch (Exception ex) {
@@ -749,7 +784,7 @@ public class MMLauncherss extends JFrame  {
 		
 		System.gc();
 	
-		 lblNewLabel.setText("Nettoyage des fichiers temporaires...");
+		 labelCenter.setText("Nettoyage des fichiers temporaires...");
 
 		  String path = System.getProperty("user.dir")+"\\update.zip";
 	        File f = new File(path);
@@ -757,11 +792,11 @@ public class MMLauncherss extends JFrame  {
 	        try {
 	            if (java.nio.file.Files.deleteIfExists(f.toPath())) {
 	               
-	            	lblNewLabel.setText("Fichiers temporaires nettoyés");
+	            	labelCenter.setText("Fichiers temporaires nettoyés");
 	            	
 	            } else {
 	            	
-	            	lblNewLabel.setText("S'il vous plait, veuillez supprimer le fichier .zip.");
+	            	labelCenter.setText("S'il vous plait, veuillez supprimer le fichier .zip.");
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -786,7 +821,7 @@ public class MMLauncherss extends JFrame  {
 	
 	        long max = conn.getContentLength();
 	
-	        lblNewLabel.setText("Chargement... Taille de la mise à jour : "+max+" octets");
+	        labelCenter.setText("Chargement... Taille de la mise à jour : "+max+" octets");
 	        
 			progressBar.setMaximum((int)max);
 	
@@ -816,7 +851,7 @@ public class MMLauncherss extends JFrame  {
 	        is.close();
 	
 	    
-	        lblNewLabel.setText("Téléchargement terminé !");
+	        labelCenter.setText("Téléchargement terminé !");
 	
 	        progressBar.setValue(0);
 
@@ -827,7 +862,7 @@ public class MMLauncherss extends JFrame  {
 		
 		
 	
-	        String path = "WEBPAGE/ClientVersion/url.html";
+	        String path = "http://mu.magestic.eu/Launcher/url.html";
 	
 	        URL url = new URL(path);
 
@@ -865,7 +900,7 @@ public class MMLauncherss extends JFrame  {
 	
 	    {
 	
-	        String path = "WEBPAGE/ClientVersion/latest.html";
+	        String path = "http://mu.magestic.eu/Launcher/latest.html";
 	
 	        URL url = new URL(path);
 
