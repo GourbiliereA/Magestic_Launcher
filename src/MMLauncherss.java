@@ -6,9 +6,11 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -49,6 +51,7 @@ public class MMLauncherss extends JFrame  {
 	private String temp = ""; 
 	private Zipperss zip;
 	private Configss config;
+    Point mouseDownCompCoords;
 	
 
 
@@ -87,6 +90,28 @@ public class MMLauncherss extends JFrame  {
 		setContentPane(contentPane);
 		setBackground(new Color(0,0,0,0));
 		setMyparent(this);
+		
+		// Adding listeners to the JFrame to make it movable
+        mouseDownCompCoords = null;
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+	               mouseDownCompCoords = null;
+	        }
+            public void mousePressed(MouseEvent e) {
+                mouseDownCompCoords = e.getPoint();
+            }
+		});
+
+		this.addMouseMotionListener(new MouseMotionListener(){
+	            public void mouseMoved(MouseEvent e) {
+	            }
+
+	            public void mouseDragged(MouseEvent e) {
+	                Point currCoords = e.getLocationOnScreen();
+	                setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+	            }
+	        });
 		
 		ImageIcon icon22 = new ImageIcon(MMLauncherss.class.getResource("/favicon.png"));
 		this.setIconImage(icon22.getImage());

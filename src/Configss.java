@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -39,6 +41,7 @@ public class Configss extends JFrame {
 	private final JRadioButton radioButtonRes1024x768 ,radioButtonRes1280x720,radioButtonRes800x600 ;
 	private JLabel labelExit;
 	private JSpinner spinner ;
+	private Point mouseDownCompCoords;
 	
 	
 
@@ -73,6 +76,28 @@ public class Configss extends JFrame {
 		setBounds(200, 100, 271, 314);
 		contentPane = new JPanel();
 		contentPane.setLayout(null);
+		
+		// Adding listeners to the JFrame to make it movable
+        mouseDownCompCoords = null;
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+	               mouseDownCompCoords = null;
+	        }
+            public void mousePressed(MouseEvent e) {
+                mouseDownCompCoords = e.getPoint();
+            }
+		});
+
+		this.addMouseMotionListener(new MouseMotionListener(){
+            public void mouseMoved(MouseEvent e) {
+            }
+
+            public void mouseDragged(MouseEvent e) {
+                Point currCoords = e.getLocationOnScreen();
+                setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
+            }
+        });
 
 		setLocationRelativeTo(MMLauncherss.getMyparent());
 		setContentPane(contentPane);
