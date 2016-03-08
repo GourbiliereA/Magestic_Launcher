@@ -26,6 +26,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -70,7 +73,7 @@ public class MMLauncherss extends JFrame  {
 					 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 					frame.setVisible(true);
 				} catch (Exception e) {
-			
+					e.printStackTrace();
 				}
 			}
 		});
@@ -351,7 +354,7 @@ public class MMLauncherss extends JFrame  {
 		/**
 		 * We get the distant file history.html to display it
 		 */
-		URL url = new URL("http://mu.magestic.eu/Launcher/history.html"); 
+		URL url = new URL("http://mu.magestic.eu/Launcher/history.php"); 
 		InputStreamReader ipsr = new InputStreamReader(url.openStream()); 
 		BufferedReader reader = new BufferedReader(ipsr); 
 		String labelCenterText = null;

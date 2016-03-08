@@ -280,7 +280,8 @@ public class Configss extends JFrame {
 					/**
 					 * Label for the cross which exit the JFrame
 					 */
-				    labelExit = new JLabel("X");
+				    labelExit = new JLabel();
+				    labelExit.setIcon(new ImageIcon(MMLauncherss.class.getResource("close.png")));
 				    labelExit.addMouseListener(new MouseAdapter() {
 				    	@Override
 				    	public void mouseClicked(MouseEvent arg0) {
