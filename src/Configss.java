@@ -2,7 +2,6 @@
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Point;
@@ -30,6 +29,7 @@ import at.jta.Key;
 import at.jta.RegistryErrorException;
 import at.jta.Regor;
 
+@SuppressWarnings(value = { "deprecation" })
 public class Configss extends JFrame {
 
 	private JPanel contentPane;
@@ -40,7 +40,7 @@ public class Configss extends JFrame {
 	private Regor reg;
 	private JRadioButton radioButtonWindow, radioButtonFullscreen;
 	private Key k = new Key();
-	private final JRadioButton radioButtonRes1024x768 ,radioButtonRes1280x1024,radioButtonRes800x600, radioButtonRes640x480 ;
+	private final JRadioButton radioButtonRes1600x1200, radioButtonRes1280x960, radioButtonRes1024x768 ,radioButtonRes800x600;
 	private JLabel labelExit;
 	private JSpinner spinner ;
 	private Point mouseDownCompCoords;
@@ -107,7 +107,7 @@ public class Configss extends JFrame {
 		ImageIcon icon7 = new ImageIcon(Configss.class.getResource("marcoo.png"));
 				
 					// Save button
-				    JButton buttonSave = new JButton("Sauvegarder", new ImageIcon(Configss.class.getResource("button.png")));
+				    final JButton buttonSave = new JButton("Sauvegarder", new ImageIcon(Configss.class.getResource("button.png")));
 				    buttonSave.setBorder(null);
 				    buttonSave.setBounds(82, 213, 120, 32);
 				    buttonSave.setOpaque(false);
@@ -124,7 +124,7 @@ public class Configss extends JFrame {
 				    	}
 					});
 				    // Save label
-				    JLabel labelSave = new JLabel("Sauvegarder");
+				    final JLabel labelSave = new JLabel("Sauvegarder");
 				    labelSave.setHorizontalAlignment(SwingConstants.CENTER);
 				    labelSave.setForeground(Color.WHITE);
 				    labelSave.addMouseListener(new MouseAdapter() {
@@ -164,44 +164,40 @@ public class Configss extends JFrame {
 				    			reg = new Regor();
 				    	
 				    		
-			    			if(radioButtonRes640x480.isSelected())//640x480
-				    		{	
-//					    			reg.saveDword(k, "DisplayDeviceModeIndex", "0");
+			    			if (radioButtonRes800x600.isSelected()){ //800x600
+				    			
 				    			try {
-						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Resolution\\Resolution_640x480.reg"}).start();
+						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\Resolution_800x600.reg"}).start();
 									
 								} catch (IOException e1) {
 									// TODO Auto-generated catch block
 									JOptionPane.showMessageDialog(null,e1);
 								}
-				    		} else if(radioButtonRes800x600.isSelected()){ //800x600
+				    		} else if (radioButtonRes1024x768.isSelected()){//1024x768
 				    			
-//				    			reg.saveDword(k, "DisplayDeviceModeIndex", "0");
 				    			try {
-						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Resolution\\Resolution_800x600.reg"}).start();
-									
-								} catch (IOException e1) {
-									// TODO Auto-generated catch block
-									JOptionPane.showMessageDialog(null,e1);
-								}
-				    		}
-				    		else if(radioButtonRes1024x768.isSelected()){//1024x768
-				    			
-//				    			reg.saveDword(k, "DisplayDeviceModeIndex", "1");
-				    			try {
-						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Resolution\\Resolution_1024x768.reg"}).start();
+						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\Resolution_1024x768.reg"}).start();
 									
 								} catch (IOException e1) {
 									// TODO Auto-generated catch block
 									JOptionPane.showMessageDialog(null,e1);
 								}
 				    			
-				    		}
-				    		else if(radioButtonRes1280x1024.isSelected()){//1280x1024
+				    		} else if (radioButtonRes1280x960.isSelected()){//1280x960
 				    			
-//				    			reg.saveDword(k, "DisplayDeviceModeIndex", "2");
 				    			try {
-						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Resolution\\Resolution_1280x1024.reg"}).start();
+						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\Resolution_1280x960.reg"}).start();
+									
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									JOptionPane.showMessageDialog(null,e1);
+								}
+				    			
+				    			
+				    		} else if (radioButtonRes1600x1200.isSelected()){//1600x1200
+				    			
+				    			try {
+						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\Resolution_1600x1200.reg"}).start();
 									
 								} catch (IOException e1) {
 									// TODO Auto-generated catch block
@@ -210,30 +206,55 @@ public class Configss extends JFrame {
 				    			
 				    			
 				    		}
+			    			
 				    		//SOUND
-				    		
-				    		if(radioButtonMusic.isSelected())//Musica
+				    		// Music
+				    		if(radioButtonMusic.isSelected())
 				    		{	
-				    			reg.saveDword(k, "MusicOn", "1");
+				    			try {
+	//				    			reg.saveDword(k, "MusicOn", "1");
+					    			Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\Music_On.reg"}).start();
+				    			
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									JOptionPane.showMessageDialog(null,e1);
+								}
 				    			
 				    		}
 				    		else if(!radioButtonMusic.isSelected())
 				    		{
-				    			reg.saveDword(k, "MusicOn", "0");
+				    			try {
+	//				    			reg.saveDword(k, "MusicOn", "0");
+					    			Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\Music_Off.reg"}).start();
 				    			
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									JOptionPane.showMessageDialog(null,e1);
+								}
 				    		}
-				    		if(radioButtonEffects.isSelected())//Efectos
+				    		// Effects
+				    		if(radioButtonEffects.isSelected())
 				    		{
-	
-				    			reg.saveDword(k, "SoundOn", "1");
+				    			try {
+	//				    			reg.saveDword(k, "SoundOn", "1");
+					    			Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\Effects_On.reg"}).start();
+					    			
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									JOptionPane.showMessageDialog(null,e1);
+								}
 				    			
 				    		}
 				    		else if(!radioButtonEffects.isSelected())
-				    		{
-				    			
-				    			reg.saveDword(k, "SoundOn", "0");
-				    			
-				    			
+				    		{		
+				    			try {
+	//				    			reg.saveDword(k, "SoundOn", "0");
+					    			Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\Effects_Off.reg"}).start();
+
+								} catch (IOException e1) {
+									// TODO Auto-generated catch block
+									JOptionPane.showMessageDialog(null,e1);
+								}
 				    		}
 				    		
 				    		//VISUALIZACION
@@ -242,7 +263,7 @@ public class Configss extends JFrame {
 				    		{
 //				    			reg.saveDword(k, "FullScreenMode", "0");
 				    			try {
-						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Resolution\\window_mode.reg"}).start();
+						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\window_mode.reg"}).start();
 									
 								} catch (IOException e1) {
 									// TODO Auto-generated catch block
@@ -254,7 +275,7 @@ public class Configss extends JFrame {
 				    			
 //				    			reg.saveDword(k, "FullScreenMode", "1");
 				    			try {
-						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Resolution\\fullscreen.reg"}).start();
+						        	Process process = new ProcessBuilder(new String[] {"regedit.exe", "/s", System.getProperty("user.dir")+"\\Configuration\\fullscreen.reg"}).start();
 									
 								} catch (IOException e1) {
 									// TODO Auto-generated catch block
@@ -264,7 +285,7 @@ public class Configss extends JFrame {
 				    		}
 				    		
 				    	
-				    		reg.saveDword(k, "VolumeLevel", spinner.getValue().toString());
+//				    		reg.saveDword(k, "VolumeLevel", spinner.getValue().toString());
 				    		
 				    		JOptionPane.showMessageDialog(null, "Les changements ont été enregistrés.","Correct",JOptionPane.INFORMATION_MESSAGE);
 				    		
@@ -336,29 +357,12 @@ public class Configss extends JFrame {
 					labelResolution.setForeground(Color.WHITE);
 					labelResolution.setBounds(20, 14, 95, 14);
 					contentPane.add(labelResolution);
-					//640x480
-					radioButtonRes640x480 = new JRadioButton("640x480");
-					radioButtonRes640x480.setForeground(Color.WHITE);
-					radioButtonRes640x480.setOpaque(false);
-					buttonGroup.add(radioButtonRes640x480);
-					radioButtonRes640x480.setBounds(20, 35, 109, 23);
-					radioButtonRes640x480.addMouseListener(new MouseAdapter() {
-				    	@Override
-						public void mouseEntered(MouseEvent e) {
-							setCursor(Cursor.HAND_CURSOR);
-				    	}
-				    	@Override
-						public void mouseExited(MouseEvent e) {
-							setCursor(Cursor.DEFAULT_CURSOR);
-				    	}
-					});
-					contentPane.add(radioButtonRes640x480);
 					// 800x600
 					radioButtonRes800x600 = new JRadioButton("800x600");
 					radioButtonRes800x600.setForeground(Color.WHITE);
 					radioButtonRes800x600.setOpaque(false);
 					buttonGroup.add(radioButtonRes800x600);
-					radioButtonRes800x600.setBounds(121, 35, 109, 23);
+					radioButtonRes800x600.setBounds(20, 35, 109, 23);
 					radioButtonRes800x600.addMouseListener(new MouseAdapter() {
 				    	@Override
 						public void mouseEntered(MouseEvent e) {
@@ -375,7 +379,7 @@ public class Configss extends JFrame {
 				    radioButtonRes1024x768.setForeground(Color.WHITE);
 				    radioButtonRes1024x768.setOpaque(false);
 				    buttonGroup.add(radioButtonRes1024x768);
-				    radioButtonRes1024x768.setBounds(20, 61, 109, 23);
+				    radioButtonRes1024x768.setBounds(121, 35, 109, 23);
 				    radioButtonRes1024x768.addMouseListener(new MouseAdapter() {
 				    	@Override
 						public void mouseEntered(MouseEvent e) {
@@ -387,13 +391,13 @@ public class Configss extends JFrame {
 				    	}
 					});
 				    contentPane.add(radioButtonRes1024x768);
-				    // 1280x1024
-				    radioButtonRes1280x1024 = new JRadioButton("1280x1024");
-				    radioButtonRes1280x1024.setForeground(Color.WHITE);
-				    radioButtonRes1280x1024.setOpaque(false);
-				    buttonGroup.add(radioButtonRes1280x1024);
-				    radioButtonRes1280x1024.setBounds(121, 61, 109, 23);
-				    radioButtonRes1280x1024.addMouseListener(new MouseAdapter() {
+				    // 1280x960
+				    radioButtonRes1280x960 = new JRadioButton("1280x960");
+				    radioButtonRes1280x960.setForeground(Color.WHITE);
+				    radioButtonRes1280x960.setOpaque(false);
+				    buttonGroup.add(radioButtonRes1280x960);
+				    radioButtonRes1280x960.setBounds(20, 61, 109, 23);
+				    radioButtonRes1280x960.addMouseListener(new MouseAdapter() {
 				    	@Override
 						public void mouseEntered(MouseEvent e) {
 							setCursor(Cursor.HAND_CURSOR);
@@ -403,7 +407,25 @@ public class Configss extends JFrame {
 							setCursor(Cursor.DEFAULT_CURSOR);
 				    	}
 					});
-				    contentPane.add(radioButtonRes1280x1024);
+				    contentPane.add(radioButtonRes1280x960);
+					//1600x1200
+					radioButtonRes1600x1200 = new JRadioButton("1600x1200");
+					radioButtonRes1600x1200.setForeground(Color.WHITE);
+					radioButtonRes1600x1200.setOpaque(false);
+					buttonGroup.add(radioButtonRes1600x1200);
+					radioButtonRes1600x1200.setBounds(121, 61, 109, 23);
+					radioButtonRes1600x1200.addMouseListener(new MouseAdapter() {
+				    	@Override
+						public void mouseEntered(MouseEvent e) {
+							setCursor(Cursor.HAND_CURSOR);
+				    	}
+				    	@Override
+						public void mouseExited(MouseEvent e) {
+							setCursor(Cursor.DEFAULT_CURSOR);
+				    	}
+					});
+					contentPane.add(radioButtonRes1600x1200);
+					
 				    contentPane.add(buttonSave);
 		
 				    
@@ -475,16 +497,22 @@ public class Configss extends JFrame {
 		labelSound.setBounds(20, 86, 46, 14);
 		contentPane.add(labelSound);
 		
-		JLabel labelVolume = new JLabel("Volume:");
-		labelVolume.setFont(new Font("Tahoma", Font.BOLD, 11));
-		labelVolume.setForeground(Color.WHITE);
-		labelVolume.setBounds(128, 137, 79, 14);
-		contentPane.add(labelVolume);
+		/**
+		 * Volume
+		 */
+		// Label
+//		JLabel labelVolume = new JLabel("Volume:");
+//		labelVolume.setFont(new Font("Tahoma", Font.BOLD, 11));
+//		labelVolume.setForeground(Color.WHITE);
+//		labelVolume.setBounds(128, 137, 79, 14);
+//		contentPane.add(labelVolume);
+		// Spinner
+//		spinner = new JSpinner();
+//		spinner.setModel(new SpinnerNumberModel(0, 0, 9, 1));
+//		spinner.setBounds(197, 134, 38, 20);
+//		contentPane.add(spinner);
 		
-		spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(0, 0, 9, 1));
-		spinner.setBounds(197, 134, 38, 20);
-		contentPane.add(spinner);
+		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(icon7);
 		lblNewLabel_1.setBounds(0, 0, 265, 268);
@@ -495,145 +523,109 @@ public class Configss extends JFrame {
 		
 		try {
 	
-			reg = new Regor();//con regor leo registro
+			reg = new Regor();// Object to work with registry
 			
-		    String value  = reg.readDword(k,"DisplayDeviceModeIndex");//leo la dword tipo de dato
-		
-			switch(value)
-			{
-			case "0x0":
-			{
-				
-				radioButtonRes800x600.setSelected(true);
-				
-			}
-			case "0x1":
-			{
-				radioButtonRes1024x768.setSelected(true);
-				
-				
-			}break;
-			case "0x2":
-			{
-				
-				radioButtonRes1280x1024.setSelected(true);
-				
-				
-			}break;
-		
-			
-			
-			}
-			
-			
-			reg = new Regor();
-		    String volume = reg.readDword(k,"VolumeLevel");
-			switch(volume)
-			{
-			case "0x1":
-			{
-				
-				spinner.setValue(1);
-				
-				
-			}break;
-			case "0x2":
-			{
-				
-				spinner.setValue(2);
-				
-				
-			}break;
-			case "0x3":
-			{
-				
-				spinner.setValue(3);
-				
-				
-			}break;
-			case "0x4":
-			{
-				
-				spinner.setValue(4);
-				
-				
-			}break;
-			case "0x5":
-			{
-				
-				spinner.setValue(5);
-				
-				
-			}break;
-			case "0x6":
-			{
-				
-				spinner.setValue(6);
-				
-				
-			}break;
-			case "0x7":
-			{
-				
-				spinner.setValue(7);
-				
-				
-			}break;
-			case "0x8":
-			{
-				
-				spinner.setValue(8);
-				
-				
-			}break;
-			case "0x9":
-			{
-				
-				spinner.setValue(9);
-				
-				
-			}break;
-			
-				
-			}
-			
-			
-			reg = new Regor();
-		    String sound  = reg.readDword(k,"SoundOn");
-	
+		    String valueResolution  = reg.readDword(k,"Resolution");// Read the value situated in the key
 		    
-			if(sound.equals("0x1"))
-			{
-				
+		    if (valueResolution.equals("0x1")) {
+				radioButtonRes800x600.setSelected(true);
+		    } else if (valueResolution.equals("0x2")) {
+		    	radioButtonRes1024x768.setSelected(true);
+		    } else if (valueResolution.equals("0x3")) {
+		    	radioButtonRes1280x960.setSelected(true);
+		    } else if (valueResolution.equals("0x4")) {
+		    	radioButtonRes1600x1200.setSelected(true);
+		    } 
+			
+//			reg = new Regor();
+//		    String volume = reg.readDword(k,"VolumeLevel");
+//			switch(volume)
+//			{
+//			case "0x1":
+//			{
+//				
+//				spinner.setValue(1);
+//				
+//				
+//			}break;
+//			case "0x2":
+//			{
+//				
+//				spinner.setValue(2);
+//				
+//				
+//			}break;
+//			case "0x3":
+//			{
+//				
+//				spinner.setValue(3);
+//				
+//				
+//			}break;
+//			case "0x4":
+//			{
+//				
+//				spinner.setValue(4);
+//				
+//				
+//			}break;
+//			case "0x5":
+//			{
+//				
+//				spinner.setValue(5);
+//				
+//				
+//			}break;
+//			case "0x6":
+//			{
+//				
+//				spinner.setValue(6);
+//				
+//				
+//			}break;
+//			case "0x7":
+//			{
+//				
+//				spinner.setValue(7);
+//				
+//				
+//			}break;
+//			case "0x8":
+//			{
+//				
+//				spinner.setValue(8);
+//				
+//				
+//			}break;
+//			case "0x9":
+//			{
+//				
+//				spinner.setValue(9);
+//				
+//				
+//			}break;
+//			
+//				
+//			}
+			
+			// Check if sounds is selected when the JFrame appears
+		    String valueSound  = reg.readDword(k,"SoundOnOff");
+			if(valueSound.equals("0x1")) {
 				radioButtonEffects.setSelected(true);
-				
-				
-			}
-			reg = new Regor();
-		    String music  = reg.readDword(k,"MusicOn");
-
-			if(music.equals("0x1"))
-			{	
-				
-				radioButtonMusic.setSelected(true);
-				
-				
 			}
 			
-			reg = new Regor();
-		    String ventana  = reg.readDword(k,"FullScreenMode");
-
-		    if(ventana.equals("0x0"))
-			{
-				
-		    	radioButtonWindow.setSelected(true);
-				
-				
+			// Check if music is selected when the JFrame appears
+		    String valueMusic  = reg.readDword(k,"MusicOnOff");
+			if(valueMusic.equals("0x1")) {
+				radioButtonMusic.setSelected(true);
 			}
-		    else
-		    {
+			
+			// Check the value selected for display mode when the JFrame appears
+		    String displayMode  = reg.readDword(k,"WindowMode");
+		    if(displayMode.equals("0x1")) {	
+		    	radioButtonWindow.setSelected(true);	
+			} else {
 		    	radioButtonFullscreen.setSelected(true);	
-		    	
 		    }
 		    
 		    

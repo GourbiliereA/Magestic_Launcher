@@ -404,7 +404,7 @@ public class MMLauncherss extends JFrame  {
 		
 		
 		
-		JLabel LabelWebsite = new JLabel("Site Web");
+		final JLabel LabelWebsite = new JLabel("Site Web");
 		LabelWebsite.setHorizontalAlignment(SwingConstants.CENTER);
 		LabelWebsite.setForeground(Color.WHITE);
 		LabelWebsite.addMouseListener(new MouseAdapter() {
@@ -437,7 +437,7 @@ public class MMLauncherss extends JFrame  {
 		
 		
 		
-		JLabel labelForum = new JLabel("Forum");
+		final JLabel labelForum = new JLabel("Forum");
 		labelForum.setHorizontalAlignment(SwingConstants.CENTER);
 		labelForum.setForeground(Color.WHITE);
 		labelForum.addMouseListener(new MouseAdapter() {
@@ -467,7 +467,7 @@ public class MMLauncherss extends JFrame  {
 		labelForum.setBounds(686, 271, 106, 23);
 		contentPane.add(labelForum);
 		
-		JLabel lblRanking = new JLabel("Classements");
+		final JLabel lblRanking = new JLabel("Classements");
 		lblRanking.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRanking.setForeground(Color.WHITE);
 		lblRanking.addMouseListener(new MouseAdapter() {
@@ -503,7 +503,7 @@ public class MMLauncherss extends JFrame  {
 		lblRanking.setBounds(687, 305, 106, 23);
 		contentPane.add(lblRanking);
 		
-		JLabel labelConfiguration = new JLabel("Configuration");
+		final JLabel labelConfiguration = new JLabel("Configuration");
 		labelConfiguration.setHorizontalAlignment(SwingConstants.CENTER);
 		labelConfiguration.setForeground(Color.WHITE);
 		labelConfiguration.addMouseListener(new MouseAdapter() {
