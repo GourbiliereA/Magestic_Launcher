@@ -142,6 +142,10 @@ public class Configss extends JFrame {
 							setCursor(Cursor.DEFAULT_CURSOR);
 							labelSave.setForeground(Color.white);
 						}
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							buttonSave.doClick();
+						}
 					});
 				    labelSave.setBorder(null);
 					labelSave.setBounds(83, 216, 106, 23);
