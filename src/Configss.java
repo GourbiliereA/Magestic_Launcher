@@ -172,14 +172,14 @@ public class Configss extends JFrame {
 	 */
 	private void initializeBackground() {
 		// Border
-		ImageIcon imageBorderBackgound = new ImageIcon(Configss.class.getResource("marcoo.png"));
+		ImageIcon imageBorderBackgound = new ImageIcon(Configss.class.getResource("/marcoo.png"));
 		JLabel labelBackgroundBorder = new JLabel("");
 		labelBackgroundBorder.setIcon(imageBorderBackgound);
 		labelBackgroundBorder.setBounds(0, 0, 265, 268);
 		contentPane.add(labelBackgroundBorder);
 		
 		// Background
-		ImageIcon imageBackground = new ImageIcon(Configss.class.getResource("font.png"));
+		ImageIcon imageBackground = new ImageIcon(Configss.class.getResource("/font.png"));
 		JLabel labelBackground = new JLabel("");
 		labelBackground.setIcon(imageBackground);
 		labelBackground.setBounds(18, 11, 231, 243);
@@ -370,7 +370,7 @@ public class Configss extends JFrame {
 	 */
 	private void createExitCross() {
 	    labelExit = new JLabel();
-	    labelExit.setIcon(new ImageIcon(MMLauncherss.class.getResource("close.png")));
+	    labelExit.setIcon(new ImageIcon(MMLauncherss.class.getResource("/close.png")));
 	    labelExit.addMouseListener(new MouseAdapter() {
 	    	@Override
 	    	public void mouseClicked(MouseEvent arg0) {
@@ -400,7 +400,7 @@ public class Configss extends JFrame {
 	private void createSaveComponents() {
 		
 		// Save button
-	    final JButton buttonSave = new JButton("Sauvegarder", new ImageIcon(Configss.class.getResource("button.png")));
+	    final JButton buttonSave = new JButton("Sauvegarder", new ImageIcon(Configss.class.getResource("/button.png")));
 	    buttonSave.setBorder(null);
 	    buttonSave.setBounds(82, 213, 120, 32);
 	    buttonSave.setOpaque(false);

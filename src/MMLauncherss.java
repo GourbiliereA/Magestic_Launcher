@@ -124,7 +124,7 @@ public class MMLauncherss extends JFrame  {
 		contentPane.setLayout(null);
 		
 		// Add the name of the server
-		ImageIcon serverNameIcon = new ImageIcon(new ImageIcon(MMLauncherss.class.getResource("/server_name2.png")).getImage().getScaledInstance(160, 33, Image.SCALE_DEFAULT));
+		ImageIcon serverNameIcon = new ImageIcon(new ImageIcon(MMLauncherss.class.getResource("/server_name.png")).getImage().getScaledInstance(160, 33, Image.SCALE_DEFAULT));
 		
 		JLabel serverNameLabel = new JLabel("");
 		serverNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -337,7 +337,6 @@ public class MMLauncherss extends JFrame  {
 				
 			}
 		});
-		ImageIcon iconM = new ImageIcon(MMLauncherss.class.getResource("/32x32xx.png"));
 		
 		labelLoad = new JLabel("");
 		labelLoad.setHorizontalAlignment(SwingConstants.CENTER);
