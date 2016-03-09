@@ -1,7 +1,6 @@
 
 
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -10,15 +9,17 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+/**
+ * 
+ * @author Alex GOURBILIERE
+ * 
+ * Class not used 
+ * 
+ * */
 public class PlaySoundss {
 
-	Clip sonido;
-	/**
-	 * 
-	 * @author Perez4all
-	 * Constructor
-	 * 
-	 * */
+	Clip sound;
+	
 	public PlaySoundss()
 	{
 
@@ -27,9 +28,9 @@ public class PlaySoundss {
 	private void play(URL file)
 	{
 		try{
-			sonido = AudioSystem.getClip();
-			sonido.open(AudioSystem.getAudioInputStream(file));
-			sonido.start();
+			sound = AudioSystem.getClip();
+			sound.open(AudioSystem.getAudioInputStream(file));
+			sound.start();
 			
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block

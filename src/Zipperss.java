@@ -15,7 +15,7 @@ import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 /**
  * 
- * @author Perez4all
+ * @author Alex GOURBILIERE
  * 
  * 
  * **/
@@ -41,9 +41,6 @@ public class Zipperss {
 	public Zipperss() throws ZipException
 	{
 		
-		/*zip = new ZipFile("update.zip");
-		zip.setRunInThread(true);*/
-		
 	}
 	
     /**
@@ -59,6 +56,8 @@ public class Zipperss {
         if (!destDir.exists()) {
             destDir.mkdir();
         }
+        
+        // Zip to extract
         ZipInputStream zipIn = new ZipInputStream(new FileInputStream("update.zip"));
         ZipEntry entry = zipIn.getNextEntry();
         // iterates over entries in the zip file

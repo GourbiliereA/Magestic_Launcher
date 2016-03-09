@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 /**
  * 
- * @author Perez4all
+ * @author Alex GOURBILIERE
  * 
  * **/
 
