@@ -8,6 +8,7 @@ import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -22,7 +23,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -101,9 +101,6 @@ public class MMLauncherss extends JFrame  {
 		
 		// Add the name of the server
 		createLabelNameServer();
-		
-		// Set the icon of the launcher
-		setLauncherIcon("/favicon.ico");
 	
 		// Make the launcher movable
 		makeJFrameMovable();
@@ -152,7 +149,10 @@ public class MMLauncherss extends JFrame  {
 		createLabelBackground();
 		
 		// Launcher position relative to nothing
-		setLocationRelativeTo(null);		
+		setLocationRelativeTo(null);	
+		
+		// Set the icon of the launcher
+		setLauncherIcon("/favicon.png");	
 	}
 	
 	

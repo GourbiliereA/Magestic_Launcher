@@ -430,7 +430,6 @@ public class Configss extends JFrame {
 	    		save();
 	    	}
 	    });
-	    contentPane.add(buttonSave);
 	    
 	    // Save label
 	    final JLabel labelSave = new JLabel("Sauvegarder");
@@ -460,6 +459,7 @@ public class Configss extends JFrame {
 		labelSave.setBounds(83, 216, 106, 23);
 		labelSave.setFont(new Font(labelSave.getFont().getFontName(), Font.BOLD, labelSave.getFont().getSize()));
 		contentPane.add(labelSave);
+	    contentPane.add(buttonSave);
 	}
 	
 	/**
