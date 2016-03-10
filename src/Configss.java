@@ -118,7 +118,16 @@ public class Configss extends JFrame {
 	}
 	
 	private void configureJFrame() {
-		
+		setTitle("Configuration");
+		setUndecorated(true);
+		setType(Type.UTILITY);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(200, 100, 271, 314);
+		contentPane = new JPanel();
+		contentPane.setLayout(null);setLocationRelativeTo(MMLauncherss.getMyparent());
+		setContentPane(contentPane);
+		setBackground(new Color(0,0,0,0));
 	}
 	
 	/**

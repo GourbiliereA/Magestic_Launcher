@@ -26,9 +26,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,7 +37,12 @@ import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-
+/**
+ * 
+ * @author Alex GOURBILIERE
+ * TODO Refactoring
+ *
+ */
 
 @SuppressWarnings("deprecation")
 public class MMLauncherss extends JFrame  {
@@ -51,11 +53,10 @@ public class MMLauncherss extends JFrame  {
 	private JPanel contentPane;
 	private JLabel labelPlay,labelCenter,labelLoad;
 	private JProgressBar progressBar;
-	private static JFrame myparent;
-	private String temp = ""; 
+	private static JFrame parentJFrame;
 	private Zipperss zip;
 	private Configss config;
-    Point mouseDownCompCoords;
+    private Point mousePosition;
 	
 
 
@@ -94,159 +95,89 @@ public class MMLauncherss extends JFrame  {
 		setContentPane(contentPane);
 		setBackground(new Color(0,0,0,0));
 		setMyparent(this);
-		
-		// Adding listeners to the JFrame to make it movable
-        mouseDownCompCoords = null;
-		this.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-	               mouseDownCompCoords = null;
-	        }
-            public void mousePressed(MouseEvent e) {
-                mouseDownCompCoords = e.getPoint();
-            }
-		});
-
-		this.addMouseMotionListener(new MouseMotionListener(){
-	            public void mouseMoved(MouseEvent e) {
-	            }
-
-	            public void mouseDragged(MouseEvent e) {
-	                Point currCoords = e.getLocationOnScreen();
-	                setLocation(currCoords.x - mouseDownCompCoords.x, currCoords.y - mouseDownCompCoords.y);
-	            }
-	        });
-		
-		ImageIcon icon22 = new ImageIcon(MMLauncherss.class.getResource("/favicon.png"));
-		this.setIconImage(icon22.getImage());
-		
-		ImageIcon icon = new ImageIcon(MMLauncherss.class.getResource("/back2a.png"));
 		contentPane.setLayout(null);
+
+		labelCenter = new JLabel("Recherche de mises à jour.");
 		
 		// Add the name of the server
+		createLabelNameServer();
+		
+		// Set the icon of the launcher
+		setLauncherIcon("/favicon.ico");
+	
+		// Make the launcher movable
+		makeJFrameMovable();
+		
+		// Do the update
+		SwingWorker work = createSwingWorker();	
+		work.execute();
+		
+		// Create play label & button
+		createPlayComponents();
+		
+		// Create the label for credits (at bottom)
+		createLabelCredits();
+		
+		// Create the label for load icon
+		createLabelLoad();
+		
+		// We get the distant file history.html to display it
+		createLabelNotice();
+		
+		// Create the label above the progress bar
+		createLabelCenter();
+		
+		// Create the progress bar
+		createProgressBar();
+		
+		// Create label for WebSite link
+		createLabelWebsite();
+		
+		// Create label for Forum link
+		createLabelForum();
+		
+		// Create label for Rankings link
+		createLabelRankings();
+		
+		// Create label for Config JFrame
+		createLabelConfig();
+		
+		// Create label to minimize the launcher
+		createLabelMinimize();
+		
+		// Create label to close the launcher
+		createLabelClose();
+		
+		// Create label for the background
+		createLabelBackground();
+		
+		// Launcher position relative to nothing
+		setLocationRelativeTo(null);		
+	}
+	
+	
+	/**
+	 * Create the label which displays the name of the server
+	 */
+	private void createLabelNameServer() {
 		ImageIcon serverNameIcon = new ImageIcon(new ImageIcon(MMLauncherss.class.getResource("/server_name.png")).getImage().getScaledInstance(160, 33, Image.SCALE_DEFAULT));
 		
 		JLabel serverNameLabel = new JLabel("");
 		serverNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		serverNameLabel.setIcon(serverNameIcon);
 		serverNameLabel.setBounds(460, 140, 190, 75);
-		contentPane.add(serverNameLabel);		
+		contentPane.add(serverNameLabel);
+	}
 	
-	
-		labelCenter = new JLabel("Recherche de mises à jour.");
-		SwingWorker work = new SwingWorker() {
-
-			@Override
-			protected Object doInBackground() throws Exception {
-				// TODO Auto-generated method stub
-			
-		
-				if(Float.parseFloat(Updaterss.getLatestVersion()) > Float.parseFloat(readVer()) && Float.parseFloat(readVer()) != Float.parseFloat(Updaterss.getLatestVersion())-0.1f)
-				{
-					
-				
-					runState = false;
-					labelPlay.setEnabled(false);
-					
-					labelCenter.setText("Mise à jour disponible!");
-		
-					Thread.sleep(1200);
-					labelCenter.setText("Contact avec le serveur de téléchargement...");
-					downloadAll();
-					
-					
-					File file = new File("version.ver");
-					 
-					// if file doesnt exists, then create it
-					
-						try {
-							
-							if (!file.exists()) {
-								
-							file.createNewFile();
-							
-							}
-							
-							FileWriter fw = new FileWriter(file.getAbsoluteFile());
-							BufferedWriter bw = new BufferedWriter(fw);
-							bw.write("[version]"+Updaterss.getLatestVersion()+"[/version]");
-							bw.close();
-		
-							
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						
-					}
-				
-					
-				}
-				else if(Float.parseFloat(Updaterss.getLatestVersion())-0.1f == Float.parseFloat(readVer()))
-				{
-					
-					
-					runState = false;
-					labelPlay.setEnabled(false);
-					
-					labelCenter.setText("Mise à jour disponible!");
-		
-					Thread.sleep(1200);
-					labelCenter.setText("Contact avec le serveur de téléchargement...");
-					downloadLatest();
-					
-					
-					File file = new File("version.ver");
-					 
-					// if file doesnt exists, then create it
-					
-						try {
-							
-							if (!file.exists()) {
-								
-							file.createNewFile();
-							
-							}
-							
-							FileWriter fw = new FileWriter(file.getAbsoluteFile());
-							BufferedWriter bw = new BufferedWriter(fw);
-							bw.write("[version]"+Updaterss.getLatestVersion()+"[/version]");
-							bw.close();
-		
-							
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						
-					}
-	
-					
-				}
-				else
-				{
-				
-					for(int i = 0; i<3;i++)
-					{
-					labelCenter.setText("Recherche de mise à jour. .");
-					Thread.sleep(500);
-					labelCenter.setText("Recherche de mise à jour. . .");
-					Thread.sleep(500);
-					labelCenter.setText("Recherche de mise à jour.");
-					Thread.sleep(500);
-					}
-					labelCenter.setText("Aucune mise à jour nécessaire");
-					
-				}
-
-				
-		
-				return null;
-			}
-		};
-	
-		work.execute();
-		
+	/**
+	 * Create play label to launch the game
+	 */
+	private void createPlayComponents() {
 		final ImageIcon iconPlay = new ImageIcon(MMLauncherss.class.getResource("/jouer.png"));
+		
 		labelPlay = new JLabel("");
+		labelPlay.setIcon(iconPlay);
+		labelPlay.setBounds(705, 414, 96, 37);
 		labelPlay.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
@@ -270,11 +201,9 @@ public class MMLauncherss extends JFrame  {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				// If there is an update
+				// If there is no update in process
 				if(runState == true)
 				{
-				
-				
 			        /**
 			         * To launch the process, the manifest is needed. It's compiled with Launch4j which create a .exe.
 			         * Config : JRE Minimum Version 1.0.0
@@ -283,135 +212,147 @@ public class MMLauncherss extends JFrame  {
 			        **/
 			        
 			        try {
-			        	Process process = new ProcessBuilder(new String[] {"cmd.exe", "/C", System.getProperty("user.dir")+"\\main.exe"}).start();
-						//Process pp=run.exec(System.getProperty("user.dir")+"\\Starter.exe" , "-fullscreen");
-			  
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						JOptionPane.showMessageDialog(null,e1);
+			        	new ProcessBuilder(new String[] {"cmd.exe", "/C", System.getProperty("user.dir")+"\\main.exe"}).start();
+					} catch (IOException error) {
+						JOptionPane.showMessageDialog(parentJFrame, "Problème lors du lancement du jeu. Veuillez contacter un administrateur.\n" + error.getMessage(), "Erreur lors du lancement du jeu", JOptionPane.ERROR_MESSAGE);
 					}
 			        
+					// Try to close Config's JFrame to close it if it's still opened
+					try {
+						config.dispose();
+					} catch (Exception e2) {
+						
+					}
 			        
-			        
-			        
-			        
-			        
-			        dispose();
-				
-			        
-			        
-			        
-				}
-				else
-				{
-					
+			        dispose();  
+				} else {
+					// Indicate to the user that he needs to wait the end of update before launching the game
 					JOptionPane.showMessageDialog(contentPane, "S'il vous plait, veuillez attendre la fin de la mise à jour", "Actualisation", JOptionPane.INFORMATION_MESSAGE);
-					
-				}
-				
+				}	
 			}
 		});
-		
+
+		contentPane.add(labelPlay);
+	}
+	
+	
+	/**
+	 * Create the label for credits
+	 */
+	private void createLabelCredits() {
 		final JLabel lblMuMagestic = new JLabel("Mu Magestic 2016\u00A9 ");
 		lblMuMagestic.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblMuMagestic.setForeground(Color.GRAY);
+		lblMuMagestic.setBounds(571, 454, 111, 14);
 		lblMuMagestic.addMouseListener(new MouseAdapter() {
+			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				
-				
 				lblMuMagestic.setForeground(Color.LIGHT_GRAY);
 	    		setCursor(Cursor.HAND_CURSOR);
 				
 			}
+			
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				
 				lblMuMagestic.setForeground(Color.GRAY);
 	    		setCursor(Cursor.DEFAULT_CURSOR);
-				
 			}
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
 				JOptionPane.showMessageDialog(null, "Crédits: Mu Magestic\nSite Web : mu.magestic.eu","A propos de..",JOptionPane.INFORMATION_MESSAGE);
-				
 			}
 		});
 		
+		contentPane.add(lblMuMagestic);
+	}
+	
+	
+	/**
+	 * Create the label for load icon
+	 */
+	private void createLabelLoad() {
 		labelLoad = new JLabel("");
 		labelLoad.setHorizontalAlignment(SwingConstants.CENTER);
 		labelLoad.setVisible(false);
 		labelLoad.setBounds(701, 404, 89, 58);
+		
 		contentPane.add(labelLoad);
-//		JLabel iconMM = new JLabel("");
-//		iconMM.setHorizontalAlignment(SwingConstants.CENTER);
-//	
-//		iconMM.setIcon(iconM);
-//		iconMM.setBounds(717, 85, 173, 75);
-//		contentPane.add(iconMM);
-		
-		/**
-		 * We get the distant file history.html to display it
-		 */
-		URL url = new URL("http://mu.magestic.eu/Launcher/history.php"); 
-		InputStreamReader ipsr = new InputStreamReader(url.openStream()); 
-		BufferedReader reader = new BufferedReader(ipsr); 
-		String labelCenterText = null;
-		while(reader.ready())
-		{
-			labelCenterText = reader.readLine();
-			
-		}
-		reader.close();
-		
-		JLabel notice = new JLabel(labelCenterText);
-		notice.setFont(new Font("Buxton Sketch", Font.PLAIN, 14));
-		notice.setForeground(SystemColor.menu);
-		notice.setBorder(null);
-		notice.setBounds(363, 260, 300, 89);
-		contentPane.add(notice);
-		
-			try{
-			notice.setText(Updaterss.getWhatsNew());
-			}catch(Exception e)
-			{}
+	}
 	
-		
-
-
-		
-		lblMuMagestic.setForeground(Color.GRAY);
-		lblMuMagestic.setBounds(571, 454, 111, 14);
-		contentPane.add(lblMuMagestic);
-		labelPlay.setIcon(iconPlay);
-		labelPlay.setBounds(705, 414, 96, 37);
-		contentPane.add(labelPlay);
-		
+	
+	/**
+	 * Create the notice label (which display a distant file)
+	 */
+	private void createLabelNotice() {
+		try {
+			URL url = new URL("http://mu.magestic.eu/Launcher/history.php"); 
+			InputStreamReader ipsr = new InputStreamReader(url.openStream()); 
+			BufferedReader reader = new BufferedReader(ipsr); 
+			
+			String labelNotice = null;
+			while(reader.ready())
+			{
+				labelNotice = reader.readLine();
+				
+			}
+			reader.close();
+			
+			JLabel notice = new JLabel(labelNotice);
+			notice.setFont(new Font("Buxton Sketch", Font.PLAIN, 14));
+			notice.setForeground(SystemColor.menu);
+			notice.setBorder(null);
+			notice.setBounds(363, 260, 300, 89);
+			contentPane.add(notice);
+		} catch (Exception error) {
+			JOptionPane.showMessageDialog(parentJFrame, "Problème lors de la récupération ou de l'affichage du contenu du launcher. Veuillez contacter un administrateur.\n" + error.getMessage(), "Erreur lors du lancement du jeu", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	
+	/**
+	 * Create the label above the progress bar
+	 */
+	private void createLabelCenter() {
 		labelCenter.setForeground(Color.WHITE);
 		labelCenter.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		labelCenter.setBounds(363, 411, 184, 14);
-		contentPane.add(labelCenter);
 		
+		contentPane.add(labelCenter);
+	}
 	
+	
+	/**
+	 * Create the progress bar
+	 */
+	private void createProgressBar() {
 		progressBar = new JProgressBar();
 		progressBar.setBounds(366, 430, 297, 4);
 		progressBar.setMaximum(100);
 		progressBar.setBackground(new Color(0,0,0,0));
 		progressBar.setBorder(null);
 		progressBar.setMinimum(0);
+		
 		contentPane.add(progressBar);
-		
-		
-		
-		final JLabel LabelWebsite = new JLabel("Site Web");
-		LabelWebsite.setHorizontalAlignment(SwingConstants.CENTER);
-		LabelWebsite.setForeground(Color.WHITE);
-		LabelWebsite.addMouseListener(new MouseAdapter() {
+	}
+	
+	
+	/**
+	 *  Create label for WebSite link
+	 */
+	private void createLabelWebsite() {
+		final JLabel labelWebsite = new JLabel("Site Web");
+		labelWebsite.setHorizontalAlignment(SwingConstants.CENTER);
+		labelWebsite.setForeground(Color.WHITE);
+		labelWebsite.setBorder(null);
+		labelWebsite.setBounds(687, 238, 106, 23);
+		labelWebsite.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				
 				setCursor(Cursor.HAND_CURSOR);
-				LabelWebsite.setForeground(new Color(208, 0, 0));
+				labelWebsite.setForeground(new Color(208, 0, 0));
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
 				
@@ -419,7 +360,7 @@ public class MMLauncherss extends JFrame  {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				setCursor(Cursor.DEFAULT_CURSOR);
-				LabelWebsite.setForeground(Color.white);
+				labelWebsite.setForeground(Color.white);
 			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -430,15 +371,20 @@ public class MMLauncherss extends JFrame  {
 				{}
 			}
 		});
-		LabelWebsite.setBorder(null);
-		LabelWebsite.setBounds(687, 238, 106, 23);
-		contentPane.add(LabelWebsite);
 		
-		
-		
+		contentPane.add(labelWebsite);
+	}
+	
+	
+	/**
+	 * Create label for forum link
+	 */
+	private void createLabelForum() {
 		final JLabel labelForum = new JLabel("Forum");
 		labelForum.setHorizontalAlignment(SwingConstants.CENTER);
 		labelForum.setForeground(Color.WHITE);
+		labelForum.setBorder(null);
+		labelForum.setBounds(686, 271, 106, 23);
 		labelForum.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -462,49 +408,58 @@ public class MMLauncherss extends JFrame  {
 				{}
 			}
 		});
-		labelForum.setBorder(null);
-		labelForum.setBounds(686, 271, 106, 23);
-		contentPane.add(labelForum);
 		
+		contentPane.add(labelForum);
+	}
+	
+	
+	/**
+	 * Create the label for Rankings link
+	 */
+	private void createLabelRankings() {
 		final JLabel lblRanking = new JLabel("Classements");
 		lblRanking.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRanking.setForeground(Color.WHITE);
+		lblRanking.setBorder(null);
+		lblRanking.setBounds(687, 305, 106, 23);
 		lblRanking.addMouseListener(new MouseAdapter() {
+			
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
 				setCursor(Cursor.HAND_CURSOR);
 				lblRanking.setForeground(new Color(208, 0, 0));
 				
 			}
+			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				setCursor(Cursor.DEFAULT_CURSOR);
 				lblRanking.setForeground(Color.white);
 			}
+			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
-				try{
-				openURL("http://mu.magestic.eu/Classement_Joueurs");
-				}catch(Exception e)
-				{
-					
-					
-					
-				}
-				
+				try {
+					openURL("http://mu.magestic.eu/Classement_Joueurs");
+				} catch(Exception e){}
 			}
 		});
-		lblRanking.setBorder(null);
-		lblRanking.setBounds(687, 305, 106, 23);
-		contentPane.add(lblRanking);
 		
+		contentPane.add(lblRanking);
+	}
+	
+	
+	/**
+	 * Create the label for opening config JFrame
+	 */
+	private void createLabelConfig() {
 		final JLabel labelConfiguration = new JLabel("Configuration");
 		labelConfiguration.setHorizontalAlignment(SwingConstants.CENTER);
 		labelConfiguration.setForeground(Color.WHITE);
+		labelConfiguration.setBorder(null);
+		labelConfiguration.setBounds(689, 337, 106, 23);
 		labelConfiguration.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -529,98 +484,227 @@ public class MMLauncherss extends JFrame  {
 				
 			}
 		});
-		labelConfiguration.setBorder(null);
-		labelConfiguration.setBounds(689, 337, 106, 23);
-		contentPane.add(labelConfiguration);
-		JLabel lblTitulo = new JLabel("");
-
-		lblTitulo.setBounds(434, 131, 314, 75);
-		contentPane.add(lblTitulo);
 		
+		contentPane.add(labelConfiguration);
+	}
+	
+	
+	/**
+	 * Create the label to minimize the launcher
+	 */
+	private void createLabelMinimize() {
 		JLabel labelMinimize = new JLabel("");
+		labelMinimize.setBounds(766, 186, 16, 16);
+		labelMinimize.setBorder(null);
 		labelMinimize.addMouseListener(new MouseAdapter() {
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
 				setState(Frame.ICONIFIED);
-				
 			}
+			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
 				setCursor(Cursor.HAND_CURSOR);	
 			}
+			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				setCursor(Cursor.DEFAULT_CURSOR);	
 			}
 		});
-		labelMinimize.setBounds(766, 186, 16, 16);
-		contentPane.add(labelMinimize);
-		labelMinimize.setBorder(null);
 		
+		contentPane.add(labelMinimize);
+	}
+	
+	
+	/**
+	 * Create the label to close the launcher
+	 */
+	private void createLabelClose() {
 		JLabel labelClose = new JLabel("");
 		labelClose.setBounds(785, 186, 16, 16);
-		contentPane.add(labelClose);
+		labelClose.setBorder(null);
 		labelClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// Try to close Config's JFrame to close it if it's still opened
 				try {
 					config.dispose();
-				} catch (Exception e) {
-					
-				}
-				dispose();
+				} catch (Exception e) {}
 				
+				dispose();
 			}
+			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				
 				PlaySoundss play = new PlaySoundss();
 				play.clickSound();
-				setCursor(Cursor.HAND_CURSOR);				
-				
+				setCursor(Cursor.HAND_CURSOR);
 			}
+			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				setCursor(Cursor.DEFAULT_CURSOR);	
 			}
 		});
 		
-		labelClose.setBorder(null);
+		contentPane.add(labelClose);
+	}
+	
+	/**
+	 * Create the label for the background
+	 */
+	private void createLabelBackground() {
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setBounds(0, 0, 890, 590);
+		
+		ImageIcon iconBackground = new ImageIcon(MMLauncherss.class.getResource("/back2a.png"));
+		lblBackground.setIcon(iconBackground);
+		
 		contentPane.add(lblBackground);
-		lblBackground.setIcon(icon);
-		
-		setLocationRelativeTo(null);
-		
-		
+	}
+	
+	/**
+	 * Make the JFrame movable
+	 */
+	private void makeJFrameMovable() {
+        mousePosition = null;
+        
+		this.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+	               mousePosition = null;
+	        }
+            public void mousePressed(MouseEvent e) {
+                mousePosition = e.getPoint();
+            }
+		});
 
+		this.addMouseMotionListener(new MouseMotionListener(){
+            public void mouseMoved(MouseEvent e) {
+            }
+
+            public void mouseDragged(MouseEvent e) {
+                Point currCoords = e.getLocationOnScreen();
+                setLocation(currCoords.x - mousePosition.x, currCoords.y - mousePosition.y);
+            }
+        });
+	}
+	
+	
+	/**
+	 * Set the icon of the launcher
+	 * 
+	 * @param iconPath
+	 * 		Path to the image
+	 */
+	private void setLauncherIcon(String iconPath) {
+		ImageIcon iconLauncher = new ImageIcon(MMLauncherss.class.getResource(iconPath));
+		this.setIconImage(iconLauncher.getImage());
+	}
+	
+	
+	/**
+	 * Create the SwingWorker for updating
+	 * @return
+	 * 		the SwingWorker
+	 */
+	private SwingWorker createSwingWorker() {
+		return new SwingWorker() {
+
+			@Override
+			protected Object doInBackground() throws Exception {
+				
+				if(Float.parseFloat(Updaterss.getLatestVersion()) > Float.parseFloat(readVer())) {
+					
+					doUpdate();
+					
+				} else {
+				
+					for(int i = 0; i<2;i++) {
+						// Simule for the client a search of update (already done)
+						labelCenter.setText("Recherche de mise à jour. .");
+						Thread.sleep(500);
+						labelCenter.setText("Recherche de mise à jour. . .");
+						Thread.sleep(500);
+						labelCenter.setText("Recherche de mise à jour.");
+						Thread.sleep(500);
+					}
+					
+					labelCenter.setText("Aucune mise à jour nécessaire");
+				}
+
+				
 		
+				return null;
+			}
+		};
+	}
+	
+	
+	/**
+	 * Update the game
+	 */
+	private void doUpdate() {
+		// Cannot run the game
+		runState = false;
+		// Disable Play label
+		labelPlay.setEnabled(false);
+		
+		// Warn the user that there is an update available
+		labelCenter.setText("Mise à jour disponible!");
+
+		try {
+			// Temporisation to let the user see the label above
+			Thread.sleep(1200);
+		} catch (InterruptedException e) {
+			
+		}
+		
+		// Warn the user that we download the files on server
+		labelCenter.setText("Contact avec le serveur de téléchargement...");
+		
+		// Download the files on server
+		update();
+		
+		
+		File file = new File("version.ver");
+		 
+		try {
+			// Write the version written on the server in the clint folder
+			FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write("[version]"+Updaterss.getLatestVersion()+"[/version]");
+			bw.close();
+		} catch (IOException error) {
+			JOptionPane.showMessageDialog(parentJFrame, "Problème lors de la mise à jour du fichier version.ver. Veuillez contacter un administrateur.\n" + error.getMessage(), "Erreur lors de la vérification de la version", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
-	private String readVer()
-	{
-		
-
+	
+	/**
+	 * Read the actual version of the game
+	 * @return
+	 * 		Version of the game
+	 */
+	private String readVer() {
 		BufferedReader reader;
 		try {
 			reader = new BufferedReader(new FileReader("version.ver"));
 		
-		//asi funciona con getresource astream
-		while(reader.ready())
-		{
-			ver = reader.readLine();
-			
-		}
+			// Read version.ver file with a reader
+			while(reader.ready())
+			{
+				ver = reader.readLine();
+				
+			}
 
-		ver = ver.substring(ver.indexOf("[version]")+9,ver.indexOf("[/version]"));
+			ver = ver.substring(ver.indexOf("[version]")+9,ver.indexOf("[/version]"));
 		
-		reader.close();
+			reader.close();
 		
 		} catch (FileNotFoundException e) {
 			// File creation with version 0.0
@@ -634,21 +718,24 @@ public class MMLauncherss extends JFrame  {
 				
 				// We call again readVer()
 				readVer();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (IOException error) {
+				JOptionPane.showMessageDialog(parentJFrame, "Problème lors de la création du fichier version.ver. Veuillez contacter un administrateur.\n" + error.getMessage(), "Erreur lors de la vérification de la version", JOptionPane.ERROR_MESSAGE);
 			}
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException error) {
+			JOptionPane.showMessageDialog(parentJFrame, "Problème lors de la lecture du fichier version.ver. Veuillez contacter un administrateur.\n" + error.getMessage(), "Erreur lors de la vérification de la version", JOptionPane.ERROR_MESSAGE);
 		}
-		return ver;
 		
-		
+		return ver;	
 	}
 	
-	        
+
+	/**
+	 * Open an URL according to the Operating System
+	 * 
+	 * @param url
+	 * 		Url to open
+	 */
 	public static void openURL(String url) {
         String osName = System.getProperty("os.name");
         try {
@@ -669,66 +756,12 @@ public class MMLauncherss extends JFrame  {
         }
     }
 	
-	public void downloadLatest()
-	{
-		labelPlay.setVisible(false);
-		ImageIcon licon = new ImageIcon(MMLauncherss.class.getResource("load.gif"));
-		labelLoad.setIcon(licon);
-		labelLoad.setVisible(true);
-		
-		
-		downloader = new Thread(
-			
-				        new Runnable(){
-				
-				            public void run()
-				
-				            {
-				
-				                try {
 	
-				                    downloadFile(getDownloadLinkLatest());
-				                    
-				            
-				                    zip = new Zipperss();
-				                    zip.setBar(progressBar);
-				                    zip.setLabel(labelCenter);
-				                    zip.UnZip();
-				                    
-				         
-				                    cleanup();
-				                    
-				                    labelPlay.setEnabled(true);
-
-		
-				                    runState = true;
-				                    
-				                    labelLoad.setVisible(false);
-				                    labelPlay.setVisible(true);
-				                    labelCenter.setText("Mise à jour terminée !!");
-				                 
-				
-				                } catch (Exception ex) {
-				
-				                    ex.printStackTrace();
-				                    System.out.println(ex.getMessage());
-				                    JOptionPane.showMessageDialog(null, "Erreur lors de la mise à jour !");
-			
-				                }
-			
-				            }
-				
-				        });
-				
-				        downloader.start();
-		
-	}
-	
-	
-	public void downloadAll()
-	{
-		
-		labelPlay.setVisible(false);
+	/**
+	 * Manage the download and the replacement of files
+	 */
+	public void update() {
+		// Set the load icon to show that ther is a loading
 	 	ImageIcon licon = new ImageIcon(MMLauncherss.class.getResource("/load.gif"));
 		labelLoad.setIcon(licon);
 		labelLoad.setVisible(true);
@@ -736,213 +769,147 @@ public class MMLauncherss extends JFrame  {
 		downloader = new Thread(
 			
 				        new Runnable(){
-				
-				            public void run()
-				
-				            {
+				        	public void run() {
 				
 				                try {
-	
+				                	// Download the zip which contains files to update
 				                    downloadFile(getDownloadLinkFromHost());
 				                    
-				            
+				                    // Unzip the temporary zip file to the client folders
 				                    zip = new Zipperss();
 				                    zip.setBar(progressBar);
 				                    zip.setLabel(labelCenter);
 				                    zip.UnZip();
 				                    
-				         
+				                    // Delete the temporary zip
 				                    cleanup();
 				                    
+				                    // Make the play label clickable
 				                    labelPlay.setEnabled(true);
 
-		
+				                    // Make the game runnable
 				                    runState = true;
 				                    
-				                    
+				                    // Hide the load gif
 				                    labelLoad.setVisible(false);
+				                    // Show the play label
 				                    labelPlay.setVisible(true);
+				                    // Tell the user that the update is finished
 				                    labelCenter.setText("Mise à jour terminée !!");
-				                 
-				                    
-				                } catch (Exception ex) {
-				
-				                    ex.printStackTrace();
-				
-				                    JOptionPane.showMessageDialog(null, "Erreur lors de la mise à jour !");
-			
+				                } catch (Exception error) {				
+				                    JOptionPane.showMessageDialog(parentJFrame, "Erreur lors de la mise à jour ! Veuillez contacter un administrateur.\nRaison : " + error.getMessage(), "Erreur de mise à jour", JOptionPane.ERROR_MESSAGE);
 				                }
 			
 				            }
 				
 				        });
-				
-				        downloader.start();
 		
+		// Start the download
+		downloader.start();	
 	}
-	private void cleanup()
-
-	    {
-		
+	
+	/**
+	 * Delete the zip file
+	 */
+	private void cleanup() {
 		System.gc();
-	
-		 labelCenter.setText("Nettoyage des fichiers temporaires...");
 
-		  String path = System.getProperty("user.dir")+"\\update.zip";
-	        File f = new File(path);
+	 	labelCenter.setText("Nettoyage des fichiers temporaires...");
 
-	        try {
-	            if (java.nio.file.Files.deleteIfExists(f.toPath())) {
-	               
-	            	labelCenter.setText("Fichiers temporaires nettoyés");
-	            	
-	            } else {
-	            	
-	            	labelCenter.setText("S'il vous plait, veuillez supprimer le fichier .zip.");
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	        
-	        
-
-	    }
-
-
-	private void downloadFile(String link) throws MalformedURLException, IOException
-
-	    {
-
-			//progressBar.setMaximum(1000000000);
+	  	String path = System.getProperty("user.dir")+"\\update.zip";
+		File f = new File(path);
 		
-	        URL url = new URL(link);
+		try {
+		    if (java.nio.file.Files.deleteIfExists(f.toPath())) {
+		    	labelCenter.setText("Fichiers temporaires nettoyés");
+		    }
+		} catch (Exception error) {
+			JOptionPane.showMessageDialog(parentJFrame, "Erreur lors de la suppression des fichiers temporaires ! Veuillez contacter un administrateur.\nRaison : " + error.getMessage(), "Erreur de mise à jour", JOptionPane.ERROR_MESSAGE);
+		}
+   }
 
+	/**
+	 * Download the file situated on the linbk
+	 * @param link
+	 * 		Path to the file
+	 */
+	private void downloadFile(String link) {
+
+		try {
+			// Get the zip
+	        URL url = new URL(link);
 	        URLConnection conn = url.openConnection();
-	
 	        InputStream is = conn.getInputStream();
 	
+	        // Size of the zip
 	        long max = conn.getContentLength();
 	
+	        // We show the size to the user
 	        labelCenter.setText("Chargement... Taille de la mise à jour : "+max+" octets");
 	        
+	        // Set the progress bar maximum to the size of the zip
 			progressBar.setMaximum((int)max);
 	
+			// Write the content of zip in the client folder
 	        BufferedOutputStream fOut = new BufferedOutputStream(new FileOutputStream(new File("update.zip")));
-	
 	        byte[] buffer = new byte[32 * 1024];
-	
 	        int bytesRead = 0;
-	
 	        int in = 0;
-	
 	        while ((bytesRead = is.read(buffer)) != -1) {
-
 	            in += bytesRead;
-	           
-	            progressBar.setValue(in);
-
+	            // Update of the progress bar
+	            progressBar.setValue(in);	
 	            fOut.write(buffer, 0, bytesRead);
-
 	        }
-	
-	
 	        fOut.flush();
-
 	        fOut.close();
-	
 	        is.close();
-	
-	    
-	        labelCenter.setText("Téléchargement terminé !");
-	
-	        progressBar.setValue(0);
-
-	    }
-	private String getDownloadLinkFromHost() throws MalformedURLException, IOException
-	
-	    {
+		} catch (Exception error) {
+			JOptionPane.showMessageDialog(parentJFrame, "Erreur lors du téléchargement des fichiers sur le serveur ! Veuillez contacter un administrateur.\nRaison : " + error.getMessage(), "Erreur de mise à jour", JOptionPane.ERROR_MESSAGE);
+		}
 		
+        labelCenter.setText("Téléchargement terminé !");
+
+        progressBar.setValue(0);
+    }
+	
+	/**
+	 * Get the location of the zip which contains files to update
+	 * 
+	 * @return
+	 * 		the location of the zip
+	 */
+	private String getDownloadLinkFromHost() {
+		StringBuilder buffer = null;
 		
-	
-	        String path = "http://mu.magestic.eu/Launcher/url.html";
-	
+		// Path to the file which contains the location of the update archive (.zip)
+        String path = "http://mu.magestic.eu/Launcher/url.html";
+        
+        try {
+	        // Read the file to get the zip location
 	        URL url = new URL(path);
-
-	 
-	
 	        InputStream html = null;
-	
-	 
-	
 	        html = url.openStream();
-	
-	 
-	
+	        buffer = new StringBuilder("");
 	        int c = 0;
-	
-	        StringBuilder buffer = new StringBuilder("");
-
-	 
-	
 	        while(c != -1) {
-
 	            c = html.read();
-
-	        buffer.append((char)c);
-
-	 
-
+	            buffer.append((char)c);
 	        }
-	
-	        return buffer.substring(buffer.indexOf("[url]")+5,buffer.indexOf("[/url]"));
-	
-	    }
-	
-	private String getDownloadLinkLatest() throws MalformedURLException, IOException
-	
-	    {
-	
-	        String path = "http://mu.magestic.eu/Launcher/latest.html";
-	
-	        URL url = new URL(path);
+        } catch (Exception error) {
+        	JOptionPane.showMessageDialog(parentJFrame, "Erreur lors de la récupération de la localisation des fichiers sur le serveur ! Veuillez contacter un administrateur.\nRaison : " + error.getMessage(), "Erreur de mise à jour", JOptionPane.ERROR_MESSAGE);
+        }
 
-	 
-	
-	        InputStream html = null;
-	
-	 
-	
-	        html = url.openStream();
-	
-	 
-	
-	        int c = 0;
-	
-	        StringBuilder buffer = new StringBuilder("");
+        // Return the location of the zip
+        return buffer.substring(buffer.indexOf("[url]")+5,buffer.indexOf("[/url]"));
 
-	 
-	
-	        while(c != -1) {
-
-	            c = html.read();
-
-	        buffer.append((char)c);
-
-	 
-
-	        }
-	
-	        return buffer.substring(buffer.indexOf("[url]")+5,buffer.indexOf("[/url]"));
-	
-	    }
-	
+    }	
 	
 	public static JFrame getMyparent() {
-		return myparent;
+		return parentJFrame;
 	}
 
 	public static void setMyparent(JFrame myparent) {
-		MMLauncherss.myparent = myparent;
+		MMLauncherss.parentJFrame = myparent;
 	}
-	}
-	
+}

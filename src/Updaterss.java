@@ -24,17 +24,8 @@ public class Updaterss {
 		 return data.substring(0,(data.length())-1);
 
 	     }
-
-	     public static String getWhatsNew() throws IOException
-
-	     {
-	    	 
-	    	String data = getData(historyURL);
-	    
-	    	return data.substring(data.indexOf("[history]")+9,data.indexOf("[/history]"));
-
-
-	     }	
+	 
+	 
 	     private static String getData(String address) throws IOException
 	
 	     {
