@@ -8,7 +8,6 @@ import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.SystemColor;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -23,6 +22,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -57,6 +57,7 @@ public class MMLauncherss extends JFrame  {
 	private Zipperss zip;
 	private Configss config;
     private Point mousePosition;
+    private boolean updateSuccess;
 	
 
 
@@ -105,10 +106,6 @@ public class MMLauncherss extends JFrame  {
 		// Make the launcher movable
 		makeJFrameMovable();
 		
-		// Do the update
-		SwingWorker work = createSwingWorker();	
-		work.execute();
-		
 		// Create play label & button
 		createPlayComponents();
 		
@@ -152,7 +149,11 @@ public class MMLauncherss extends JFrame  {
 		setLocationRelativeTo(null);	
 		
 		// Set the icon of the launcher
-		setLauncherIcon("/favicon.png");	
+		setLauncherIcon("/favicon.png");
+		
+		// Do the update
+		SwingWorker work = createSwingWorker();	
+		work.execute();	
 	}
 	
 	
@@ -317,7 +318,7 @@ public class MMLauncherss extends JFrame  {
 	private void createLabelCenter() {
 		labelCenter.setForeground(Color.WHITE);
 		labelCenter.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		labelCenter.setBounds(363, 411, 184, 14);
+		labelCenter.setBounds(363, 411, 250, 14);
 		
 		contentPane.add(labelCenter);
 	}
@@ -623,7 +624,7 @@ public class MMLauncherss extends JFrame  {
 					doUpdate();
 					
 				} else {
-				
+					
 					for(int i = 0; i<2;i++) {
 						// Simule for the client a search of update (already done)
 						labelCenter.setText("Recherche de mise à jour. .");
@@ -651,8 +652,6 @@ public class MMLauncherss extends JFrame  {
 	private void doUpdate() {
 		// Cannot run the game
 		runState = false;
-		// Disable Play label
-		labelPlay.setEnabled(false);
 		
 		// Warn the user that there is an update available
 		labelCenter.setText("Mise à jour disponible!");
@@ -669,19 +668,6 @@ public class MMLauncherss extends JFrame  {
 		
 		// Download the files on server
 		update();
-		
-		
-		File file = new File("version.ver");
-		 
-		try {
-			// Write the version written on the server in the clint folder
-			FileWriter fw = new FileWriter(file.getAbsoluteFile());
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write("[version]"+Updaterss.getLatestVersion()+"[/version]");
-			bw.close();
-		} catch (IOException error) {
-			JOptionPane.showMessageDialog(parentJFrame, "Problème lors de la mise à jour du fichier version.ver. Veuillez contacter un administrateur.\n" + error.getMessage(), "Erreur lors de la vérification de la version", JOptionPane.ERROR_MESSAGE);
-		}
 	}
 
 	
@@ -795,9 +781,27 @@ public class MMLauncherss extends JFrame  {
 				                    // Show the play label
 				                    labelPlay.setVisible(true);
 				                    // Tell the user that the update is finished
-				                    labelCenter.setText("Mise à jour terminée !!");
-				                } catch (Exception error) {				
+				                    labelCenter.setText("Mise à jour terminée !");
+				                    
+				                    // Update the version in verison.ver file
+				                    File file = new File("version.ver");
+				       			 
+			        				// Write the version written on the server in the clint folder
+			        				FileWriter fw = new FileWriter(file.getAbsoluteFile());
+			        				BufferedWriter bw = new BufferedWriter(fw);
+			        				bw.write("[version]"+Updaterss.getLatestVersion()+"[/version]");
+			        				bw.close();
+				                } catch (IOException error) {
+			        				JOptionPane.showMessageDialog(parentJFrame, "Problème lors de la mise à jour du fichier version.ver. Veuillez contacter un administrateur.\n" + error.getMessage(), "Erreur lors de la vérification de la version", JOptionPane.ERROR_MESSAGE);
+			        			} catch (Exception error) {				
 				                    JOptionPane.showMessageDialog(parentJFrame, "Erreur lors de la mise à jour ! Veuillez contacter un administrateur.\nRaison : " + error.getMessage(), "Erreur de mise à jour", JOptionPane.ERROR_MESSAGE);
+				                   // Tell the user that the update is failed
+				                    labelCenter.setText("Échec de la mise à jour...");
+
+				                    // If the update fail, we let the user able to launch the game
+				        			labelLoad.setVisible(false);
+				        			labelPlay.setEnabled(true);
+				        			labelPlay.setVisible(true);
 				                }
 			
 				            }
@@ -837,33 +841,34 @@ public class MMLauncherss extends JFrame  {
 
 		try {
 			// Get the zip
-	        URL url = new URL(link);
-	        URLConnection conn = url.openConnection();
-	        InputStream is = conn.getInputStream();
-	
+			URL url = new URL(link);
+			InputStream in = url.openStream();
+			
 	        // Size of the zip
-	        long max = conn.getContentLength();
+			URLConnection urlConn = url.openConnection();
+	        long max = urlConn.getContentLength();
+	
 	
 	        // We show the size to the user
 	        labelCenter.setText("Chargement... Taille de la mise à jour : "+max+" octets");
 	        
 	        // Set the progress bar maximum to the size of the zip
 			progressBar.setMaximum((int)max);
-	
-			// Write the content of zip in the client folder
-	        BufferedOutputStream fOut = new BufferedOutputStream(new FileOutputStream(new File("update.zip")));
-	        byte[] buffer = new byte[32 * 1024];
+			
+			byte[] buf = new byte[1024];
 	        int bytesRead = 0;
-	        int in = 0;
-	        while ((bytesRead = is.read(buffer)) != -1) {
-	            in += bytesRead;
+	        int totalRead = 0;
+			// Write the content of zip in the client folder
+			OutputStream out = new BufferedOutputStream(new FileOutputStream("update.zip"));
+			while ((bytesRead=in.read(buf,0,buf.length))>0) {
+				out.write(buf,0,bytesRead);
+
 	            // Update of the progress bar
-	            progressBar.setValue(in);	
-	            fOut.write(buffer, 0, bytesRead);
-	        }
-	        fOut.flush();
-	        fOut.close();
-	        is.close();
+				totalRead += bytesRead;
+	            progressBar.setValue(totalRead);	
+			}
+			out.close();
+			in.close();
 		} catch (Exception error) {
 			JOptionPane.showMessageDialog(parentJFrame, "Erreur lors du téléchargement des fichiers sur le serveur ! Veuillez contacter un administrateur.\nRaison : " + error.getMessage(), "Erreur de mise à jour", JOptionPane.ERROR_MESSAGE);
 		}
